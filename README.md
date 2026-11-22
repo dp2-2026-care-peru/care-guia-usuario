@@ -109,4 +109,9 @@ Sin `GUIA_URL_BASE`, la copia guarda una ruta relativa y el asistente cita el te
 
 ## Publicación
 
-El workflow `.github/workflows/pages.yml` compila y audita cada PR. En `main` publica el sitio en GitHub Pages, en `https://<organización>.github.io/<repositorio>/`. Requiere que Pages esté activado con la fuente **GitHub Actions**, y el plan Free de GitHub solo lo permite en repositorios públicos.
+El workflow `.github/workflows/pages.yml` compila y audita cada PR. En `main` publica el sitio en GitHub Pages, en `https://<organización>.github.io/<repositorio>/`. Para activarlo:
+
+1. En *Settings → Pages*, elige la fuente **GitHub Actions**. En el plan Free de GitHub, Pages solo está disponible en repositorios públicos.
+2. En *Settings → Secrets and variables → Actions → Variables*, crea `PAGES_ACTIVO` con el valor `true`.
+
+Hasta entonces, el workflow compila y audita, pero no publica.
