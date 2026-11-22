@@ -1,0 +1,12 @@
+node_modules/
+# Se generan con npm run construir / npm run build
+docs/
+build/
+.docusaurus/
+.cache-loader/
+# Resultados de Playwright (capturas y auditoría)
+.resultados/
+test-results/
+playwright-report/
+.env
+.env.*

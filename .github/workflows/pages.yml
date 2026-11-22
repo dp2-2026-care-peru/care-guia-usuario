@@ -1,0 +1,62 @@
+name: Guía en GitHub Pages
+
+# Compila la guía, la audita (panel, páginas, imágenes, WCAG 2.2 AA, buscador) y,
+# en main, la publica en GitHub Pages.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Compilar para la auditoría (raíz /)
+        run: npm run build
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Auditar el sitio
+        run: |
+          npm run serve > /tmp/serve.log 2>&1 &
+          npx --yes wait-on@8.0.3 -t 60000 http://localhost:4173
+          npm run auditar
+
+      - name: Compilar para GitHub Pages
+        if: github.event_name != 'pull_request'
+        env:
+          GUIA_URL: https://${{ github.repository_owner }}.github.io
+          GUIA_BASE: /${{ github.event.repository.name }}/
+        run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
+        with:
+          path: build
+
+  publicar:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: construir
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4

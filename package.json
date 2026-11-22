@@ -1,0 +1,32 @@
+{
+  "name": "care-guia-usuario",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Guía de uso de la plataforma Niñas con Oportunidades (CARE Perú), por perfil. Sitio Docusaurus generado desde guias/*.md.",
+  "scripts": {
+    "construir": "node scripts/construir.mjs",
+    "start": "npm run construir && docusaurus start --port 4173",
+    "build": "npm run construir && docusaurus build",
+    "serve": "docusaurus serve --port 4173 --no-open",
+    "clear": "docusaurus clear",
+    "capturas": "playwright test -c capturas/playwright.config.ts",
+    "auditar": "playwright test -c auditoria/playwright.config.ts"
+  },
+  "dependencies": {
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@easyops-cn/docusaurus-search-local": "0.55.3",
+    "@mdx-js/react": "3.1.0",
+    "clsx": "2.1.1",
+    "prism-react-renderer": "2.4.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "axe-core": "4.14.1"
+  },
+  "engines": {
+    "node": ">=20.0"
+  }
+}
