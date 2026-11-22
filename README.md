@@ -89,6 +89,23 @@ El número de cada recorrido fija el orden de ejecución:
 - **Preguntas de ejemplo:** las preguntas de ejemplo dirigidas al asistente («¿Cómo calmo al grupo…?») se quitan de la copia del asistente cuando van precedidas de «por ejemplo». Si quedaran, el asistente respondería esa pregunta pedagógica con la guía de uso.
 - **Nombres de botones:** escribe el nombre exacto de cada botón, en negrita, tal como aparece en la pantalla. Si el botón no se ve en la captura, di dónde está (por ejemplo, «al final de la ventana»).
 
+## Paquete OKF para asistentes de IA
+
+`npm run construir` también genera `okf/`: la guía en
+[Open Knowledge Format](https://github.com/open-knowledge-format/open-knowledge-format/blob/main/SPEC.md)
+v0.3, el formato de Google para que agentes y modelos de IA lean y citen conocimiento.
+
+- **`okf/index.md`:** metadatos del paquete (`okf_version: "0.3"`) y el índice de perfiles y temas.
+- **`okf/<perfil>/index.md`:** introducción del perfil y lista de sus temas.
+- **`okf/<perfil>/<tema>.md`:** un concepto por tema. Su frontmatter lleva `type: Playbook`, `title`, `description`, `tags` (las `claves:`), `status` y `resource`, que es la página publicada del tema: la que un modelo debe citar. Las extensiones `x-care-*` guardan el perfil, el eje, el orden y la versión de la guía.
+- Los enlaces entre temas son enlaces Markdown relativos entre conceptos, y las capturas están en `okf/<perfil>/img/`.
+
+`okf/` se versiona, porque es lo que consumen los agentes, y se publica junto al sitio en
+`https://dp2-2026-care-peru.github.io/care-guia-usuario/okf/index.md` (enlace al pie de cada página).
+No lo edites a mano: cambia `guias/` y vuelve a construir. `npm run auditar` valida el paquete:
+cada concepto tiene `type`, `title`, `description` y un `resource` que existe en el sitio, y
+ningún enlace está roto.
+
 ## Copias para el asistente curricular
 
 Si `care-software` está al lado (o en `CARE_SOFTWARE`), `npm run construir` también actualiza dos cosas allá:
@@ -96,25 +113,26 @@ Si `care-software` está al lado (o en `CARE_SOFTWARE`), `npm run construir` tam
 - **`server/data/guias/10-guia-uso-<perfil>.md`:** la guía sin imágenes. El asistente la indexa con el eje `PLATAFORMA` y cita cada tema.
 - **`src/css/tokens.css`** (en este repositorio): los colores de la plataforma, desde `web/src/index.css`. Sin la plataforma se usa el archivo versionado.
 
-Para que las citas enlacen al tema publicado, construye las copias con la dirección del sitio:
+Las copias y el paquete OKF enlazan cada tema al sitio publicado
+(`https://dp2-2026-care-peru.github.io/care-guia-usuario/<perfil>/<tema>`). Para probar los enlaces
+contra la vista previa local, construye con `GUIA_URL_BASE`, y no subas esas copias:
 
 ```powershell
-$env:GUIA_URL_BASE = 'https://dp2-2026-care-peru.github.io/care-guia-usuario/'; npm run construir
+$env:GUIA_URL_BASE = 'http://localhost:4173/'; npm run construir
 ```
 
-Después, en `care-software`, sigue estos pasos:
+Después de cambiar las guías, en `care-software`, sigue estos pasos:
 
 1. Ejecuta `cd server; go run ./cmd/evaluar_asistente -generar` y revisa que no haya preguntas «del dominio rechazadas por error».
 2. Ejecuta `go run ./cmd/ingestar_guias -aplicar`.
 3. Sube las copias en un PR.
 
-Sin `GUIA_URL_BASE`, la copia guarda una ruta relativa y el asistente cita el tema sin enlace. Así nunca se versiona una dirección local.
-
 ## Publicación
 
-El workflow `.github/workflows/pages.yml` compila y audita cada PR. En `main` publica el sitio en GitHub Pages, en `https://<organización>.github.io/<repositorio>/`. Para activarlo:
+El sitio está publicado en **https://dp2-2026-care-peru.github.io/care-guia-usuario/**, y el paquete
+OKF en `…/okf/index.md`.
 
-1. En *Settings → Pages*, elige la fuente **GitHub Actions**. En el plan Free de GitHub, Pages solo está disponible en repositorios públicos.
-2. En *Settings → Secrets and variables → Actions → Variables*, crea `PAGES_ACTIVO` con el valor `true`.
-
-Hasta entonces, el workflow compila y audita, pero no publica.
+El workflow `.github/workflows/pages.yml` compila y audita cada PR, y en cada push a `main` vuelve a
+publicar. La publicación depende de dos cosas: que Pages use la fuente **GitHub Actions**
+(*Settings → Pages*) y que exista la variable de repositorio `PAGES_ACTIVO=true`. En el plan Free
+de GitHub, Pages solo funciona si el repositorio es público.

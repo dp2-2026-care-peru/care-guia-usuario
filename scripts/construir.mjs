@@ -8,12 +8,16 @@
 //      - src/css/tokens.css: los colores de la plataforma, desde web/src/index.css.
 //      Sin la plataforma (por ejemplo, en GitHub Actions) se usa el tokens.css versionado.
 //
-//   npm run construir
-//   GUIA_URL_BASE=https://<org>.github.io/<repo>/ npm run construir
+//   3. okf/: la guía como paquete Open Knowledge Format (OKF v0.3), para que agentes y modelos
+//      de IA la lean y la citen: un concepto (archivo con frontmatter `type`) por tema, enlaces
+//      Markdown entre conceptos y `resource` con la página publicada de cada tema.
 //
-// GUIA_URL_BASE es la dirección pública del sitio: el asistente arma con ella el enlace
-// de cada tema (<base><perfil>/<tema>). Sin la variable la copia guarda una ruta relativa
-// y el asistente cita el tema sin enlace (así nunca se versiona una dirección local).
+//   npm run construir
+//   GUIA_URL_BASE=http://localhost:4173/ npm run construir   (enlaces a la vista previa local)
+//
+// GUIA_URL_BASE es la dirección del sitio: el asistente y el paquete OKF arman con ella el
+// enlace de cada tema (<base><perfil>/<tema>). Por omisión es el sitio publicado en GitHub
+// Pages. Una dirección local solo sirve para probar: no subas las copias generadas con ella.
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,7 +29,10 @@ const DOCS = join(REPO, 'docs')
 const PLATAFORMA = resolve(process.env.CARE_SOFTWARE ?? join(REPO, '..', 'care-software'))
 const HAY_PLATAFORMA = existsSync(join(PLATAFORMA, 'server', 'data', 'guias')) && existsSync(join(PLATAFORMA, 'web', 'src', 'index.css'))
 const GUIAS_ASISTENTE = join(PLATAFORMA, 'server', 'data', 'guias')
-const BASE = process.env.GUIA_URL_BASE ? process.env.GUIA_URL_BASE.replace(/\/?$/, '/') : ''
+const SITIO_PUBLICADO = 'https://dp2-2026-care-peru.github.io/care-guia-usuario/'
+const BASE = (process.env.GUIA_URL_BASE || SITIO_PUBLICADO).replace(/\/?$/, '/')
+const OKF = join(REPO, 'okf')
+const OKF_VERSION = '0.3'
 
 /** Ancla (slug) de un tema. Debe coincidir con anclaSeccion() del asistente (Go). */
 export function ancla(texto) {
@@ -70,9 +77,14 @@ function partir(cuerpo) {
 
 /** Primera oración del texto, sin formato: descripción del tema para buscadores. */
 function descripcion(texto) {
-  const plano = texto.split('\n').find((l) => l.trim() && !/^(!\[|\d+\.|- )/.test(l.trim())) ?? ''
-  const oracion = plano.replace(/\*\*(.+?)\*\*/g, '$1').split(/(?<=\.)\s/)[0]
-  return oracion.trim()
+  // Párrafo completo (las fuentes cortan las líneas a ~100 caracteres), no solo su primera línea.
+  const bloques = texto.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+  // Si el tema empieza directo con los pasos, la descripción es el primer paso.
+  const primero = bloques.find((p) => !/^(!\[|\*[^*]|\d+\.|- )/.test(p))
+    ?? bloques.find((p) => /^(\d+\.|- )/.test(p))?.replace(/^(\d+\.|-)\s+/, '').split(/\n(?:\d+\.|-)\s/)[0]
+  const plano = (primero ?? '').replace(/\s*\n\s*/g, ' ')
+    .replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/`([^`]+)`/g, '$1')
+  return plano.split(/(?<=[.:])\s/)[0].replace(/:$/, '.').trim()
 }
 
 /** Reescribe las imágenes hacia la carpeta del perfil y agrega su pie de foto. */
@@ -173,15 +185,23 @@ function construir() {
     const temas = new Map(partir(cuerpo).temas.map((t, i) => [ancla(t.titulo), `${String(i + 1).padStart(2, '0')}-${ancla(t.titulo)}.md`]))
     mapa.set(nombre, { carpeta: meta.archivo.replace(/\/$/, ''), temas })
   }
-  /** [texto](#tema) y [texto](otra-guia.md#tema) → enlace al archivo del tema en docs/. */
-  const conEnlaces = (texto, nombre) => texto.replace(/\]\(([a-z-]+\.md)?(?:#([a-z0-9-]+))?\)/g, (todo, guia, tema) => {
+  /**
+   * [texto](#tema) y [texto](otra-guia.md#tema) → enlace al archivo del tema: en docs/ el archivo
+   * numerado de Docusaurus; en okf/ el concepto (<carpeta>/<tema>.md) o el índice del perfil.
+   */
+  const conEnlaces = (texto, nombre, formato = 'docs') => texto.replace(/\]\(([a-z-]+\.md)?(?:#([a-z0-9-]+))?\)/g, (todo, guia, tema) => {
     if (!guia && !tema) return todo
     const destino = mapa.get(guia ?? nombre)
     if (!destino) throw new Error(`${nombre}: el enlace ${todo} apunta a una guía que no existe`)
     const archivo = tema ? destino.temas.get(tema) : '00-introduccion.md'
     if (!archivo) throw new Error(`${nombre}: el enlace ${todo} apunta a un tema que no existe`)
-    return `](${guia ? `../${destino.carpeta}/` : './'}${archivo})`
+    const carpeta = guia ? `../${destino.carpeta}/` : './'
+    if (formato === 'okf') return `](${carpeta}${tema ? `${tema}.md` : 'index.md'})`
+    return `](${carpeta}${archivo})`
   })
+
+  rmSync(OKF, { recursive: true, force: true })
+  mkdirSync(OKF, { recursive: true })
 
   const guias = []
   for (const nombre of fuentes) {
@@ -217,14 +237,59 @@ function construir() {
       ))
     })
 
+    // Paquete OKF: el índice del perfil (lista, sin `type`) y un concepto por tema.
+    const destinoOkf = join(OKF, carpeta)
+    mkdirSync(destinoOkf, { recursive: true })
+    if (existsSync(join(RAIZ, 'img', perfil))) cpSync(join(RAIZ, 'img', perfil), join(destinoOkf, 'img'), { recursive: true })
+    writeFileSync(join(destinoOkf, 'index.md'), documento(
+      { title: meta.perfil, description: meta.para },
+      `# ${titulo}\n\n${conEnlaces(conImagenes(intro, perfil, nombre), nombre, 'okf')}\n\n## Temas\n\n` +
+        temas.map((t) => `- [${t.titulo}](./${ancla(t.titulo)}.md): ${descripcion(t.lineas.join('\n'))}`).join('\n'),
+    ))
+    temas.forEach((t, i) => {
+      const texto = conEnlaces(conImagenes(t.lineas.join('\n').trim(), perfil, nombre), nombre, 'okf')
+      writeFileSync(join(destinoOkf, `${ancla(t.titulo)}.md`), documento(
+        {
+          type: 'Playbook',
+          title: t.titulo,
+          description: descripcion(texto),
+          resource: `${BASE}${carpeta}/${ancla(t.titulo)}`,
+          tags: t.claves,
+          status: 'stable',
+          'x-care-perfil': meta.perfil,
+          'x-care-eje': meta.eje,
+          'x-care-orden': i + 1,
+          'x-care-version-guia': meta.version,
+        },
+        `# ${t.titulo}\n\nTema ${i + 1} de la guía de [${meta.perfil}](./index.md).\n\n${texto}`,
+      ))
+    })
+
     if (HAY_PLATAFORMA) writeFileSync(join(GUIAS_ASISTENTE, `10-guia-uso-${perfil}.md`), copiaAsistente(meta, cuerpo))
-    guias.push({ meta, carpeta, temas: temas.length })
+    guias.push({ meta, carpeta, temas: temas.length, lista: temas.map((t) => t.titulo) })
     console.log(`✓ ${meta.perfil}: ${temas.length} temas${HAY_PLATAFORMA ? ` · care-software/server/data/guias/10-guia-uso-${perfil}.md` : ''}`)
   }
 
   guias.sort((a, b) => Number(a.meta.orden ?? 99) - Number(b.meta.orden ?? 99))
   writeFileSync(join(DOCS, 'index.md'), portada(guias))
-  console.log(`Contenido listo en docs/ · enlaces del asistente: ${BASE || 'sin enlace (define GUIA_URL_BASE al publicar)'}`)
+  writeFileSync(join(OKF, 'index.md'), documento(
+    {
+      okf_version: OKF_VERSION,
+      title: 'Guía de uso de la plataforma Niñas con Oportunidades',
+      description: 'Instrucciones paso a paso para usar la plataforma del programa Niñas con Oportunidades (CARE Perú), por perfil de usuario.',
+    },
+    `# Guía de uso de la plataforma Niñas con Oportunidades
+
+Paquete [Open Knowledge Format](https://github.com/open-knowledge-format/open-knowledge-format/blob/main/SPEC.md)
+(OKF v${OKF_VERSION}) generado desde \`guias/*.md\` por \`scripts/construir.mjs\`: no se edita a mano.
+
+Cada tema es un concepto de tipo \`Playbook\`: una tarea de la plataforma explicada en pasos. Su
+campo \`resource\` es la página publicada del tema, que es la que se debe citar. Las capturas
+de pantalla están en la carpeta \`img/\` de cada perfil y usan datos ficticios.
+
+${guias.map((g) => `## [${g.meta.perfil}](./${g.carpeta}/index.md)\n\n${g.meta.para}\n\n${g.lista.map((t) => `- [${t}](./${g.carpeta}/${ancla(t)}.md)`).join('\n')}`).join('\n\n')}`,
+  ))
+  console.log(`Contenido listo en docs/ y okf/ · enlaces de los temas: ${BASE}`)
 }
 
 construir()

@@ -1,13 +1,41 @@
 import { test, expect, type Page } from '@playwright/test'
 // Ejecutar con la guía construida y servida: npm run build; npm run serve
 //   npm run auditar   (en otra terminal)
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 // Auditoría de la guía de uso publicada: estructura del panel lateral, todas las páginas
 // (escritorio y celular), imágenes, accesibilidad WCAG 2.2 AA y buscador.
 const DOCS = path.join(__dirname, '..', 'docs')
 const AXE = path.join(__dirname, '..', 'node_modules', 'axe-core', 'axe.min.js')
+const OKF = path.join(__dirname, '..', 'okf')
+
+/** Paquete OKF v0.3: conceptos con `type`, `resource` hacia una página del sitio y enlaces que existen. */
+function auditarOkf(rutas: string[]): string[] {
+  const problemas: string[] = []
+  const archivos = readdirSync(OKF, { recursive: true }).map(String).filter((f) => f.endsWith('.md'))
+  const raiz = readFileSync(path.join(OKF, 'index.md'), 'utf8')
+  if (!/^---\nokf_version: "0\.3"/.test(raiz.replace(/\r\n/g, '\n'))) problemas.push('OKF: index.md sin okf_version "0.3"')
+  let conceptos = 0
+  for (const f of archivos) {
+    const texto = readFileSync(path.join(OKF, f), 'utf8').replace(/\r\n/g, '\n')
+    const frente = texto.match(/^---\n([\s\S]*?)\n---\n/)?.[1] ?? ''
+    if (path.basename(f) !== 'index.md') {
+      conceptos++
+      if (!/^type: \S/m.test(frente)) problemas.push(`OKF ${f}: sin type`)
+      for (const campo of ['title', 'description', 'resource']) if (!new RegExp(`^${campo}: "\\S`, 'm').test(frente)) problemas.push(`OKF ${f}: sin ${campo}`)
+      const recurso = frente.match(/^resource: "([^"]+)"/m)?.[1]
+      const ruta = recurso ? new URL(recurso).pathname.replace(/^\/care-guia-usuario/, '') : ''
+      if (recurso && !rutas.includes(ruta)) problemas.push(`OKF ${f}: resource ${recurso} no es una página del sitio`)
+    }
+    for (const [, destino] of texto.matchAll(/\]\(([^)#\s]+\.(?:md|jpg|png))\)/g)) {
+      if (/^https?:/.test(destino)) continue
+      if (!existsSync(path.join(OKF, path.dirname(f), destino))) problemas.push(`OKF ${f}: enlace roto ${destino}`)
+    }
+  }
+  if (conceptos === 0) problemas.push('OKF: el paquete no tiene conceptos')
+  return problemas
+}
 
 interface Violacion { id: string; impact: string; help: string; nodes: Array<{ target: string[] }> }
 
@@ -53,7 +81,7 @@ async function rastrear(page: Page): Promise<string[]> {
     const enlaces = await page.$$eval('a[href]', (as) => as.map((a) => (a as HTMLAnchorElement).href))
     for (const href of enlaces) {
       const u = new URL(href)
-      if (u.origin !== new URL(page.url()).origin || /\.(jpg|png|svg|xml)$/.test(u.pathname) || u.pathname.startsWith('/search')) continue
+      if (u.origin !== new URL(page.url()).origin || /\.(jpg|png|svg|xml)$/.test(u.pathname) || u.pathname.startsWith('/search') || u.pathname.startsWith('/okf/')) continue
       const limpia = u.pathname.replace(/\/$/, '') || '/'
       if (!vistas.has(limpia)) pendientes.push(limpia)
     }
@@ -187,6 +215,9 @@ test('auditoría de la guía de uso', async ({ browser }) => {
   await expect(sugerencias).toContainText(/Marcar la asistencia/, { timeout: 10000 }).catch(() => problemas.push('Buscador: «asistencia» no sugiere «Marcar la asistencia»'))
   await page.getByRole('searchbox').or(page.getByPlaceholder(/Buscar/)).first().fill('dictamen')
   await expect(sugerencias).toContainText(/dictamen/i, { timeout: 10000 }).catch(() => problemas.push('Buscador: «dictamen» no encuentra el tema de la voluntaria'))
+
+  // 6. Paquete OKF para asistentes de IA.
+  problemas.push(...auditarOkf(rutas))
 
   if (errores.length) problemas.push(...errores.map((e) => `Consola: ${e}`))
   console.log(`\nAuditoría: ${rutas.length} páginas · ${esperado.length} perfiles · ${totalTemas} temas · ${problemas.length} problemas`)
