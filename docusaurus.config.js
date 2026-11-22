@@ -11,6 +11,18 @@ const baseUrl = process.env.GUIA_BASE ?? '/'
 
 /** @type {import('@docusaurus/types').Config} */
 module.exports = {
+  // Misma fuente que la plataforma (web/src/index.css).
+  stylesheets: [
+    { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap', type: 'text/css' },
+  ],
+  headTags: [
+    { tagName: 'link', attributes: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },
+    { tagName: 'link', attributes: { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' } },
+  ],
+  // Etiquetas accesibles en español que los temas traen fijas en inglés.
+  clientModules: [require.resolve('./src/cliente/etiquetas.js')],
+  // Toca o haz clic en una captura para verla en tamaño completo.
+  plugins: [require.resolve('docusaurus-plugin-image-zoom')],
   title: 'Guía de uso · Niñas con Oportunidades',
   tagline: 'Cómo usar la plataforma del programa, paso a paso y por perfil',
   favicon: 'img/favicon.svg',
@@ -77,6 +89,11 @@ module.exports = {
         copyright: 'Programa Niñas con Oportunidades · CARE Perú. Las imágenes usan datos de ejemplo.',
       },
       tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 3 },
+      zoom: {
+        selector: '.markdown img',
+        background: { light: 'rgb(255 255 255 / 0.96)', dark: 'rgb(255 255 255 / 0.96)' },
+        config: { margin: 24 },
+      },
       prism: { theme: themes.github },
     }),
 }

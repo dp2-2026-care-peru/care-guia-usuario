@@ -1,5 +1,6 @@
-/* Identidad de la plataforma: tokens.css lo genera guia-usuario/construir.mjs a partir de
-   web/src/index.css, así la guía usa exactamente los colores de la app. */
+/* Identidad de la plataforma: tokens.css lo genera scripts/construir.mjs a partir de
+   care-software/web/src/index.css, así la guía usa exactamente los colores de la app.
+   La fuente Inter se carga en docusaurus.config.js (stylesheets), igual que en la app. */
 @import './tokens.css';
 
 :root {
@@ -46,9 +47,34 @@
   font-weight: 700;
   color: var(--color-navy);
 }
-.menu__link {
-  min-height: 40px;
+/* Áreas táctiles ≥ 44 px (AGENTS.md): enlaces del panel, menú y botones de la barra. */
+.menu__link,
+.menu__caret {
+  min-height: 44px;
   align-items: center;
+}
+.menu__caret {
+  min-width: 44px;
+  justify-content: center;
+}
+/* Sin `display`: Infima oculta el botón del menú en escritorio y no hay que pisarlo. */
+.navbar__toggle,
+.navbar-sidebar__close,
+.navbar-sidebar__back {
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+.navbar-sidebar__close {
+  display: inline-flex;
+}
+.navbar-sidebar__back {
+  width: 100%;
+  justify-content: flex-start;
+}
+.navbar__search-input {
+  min-height: 44px;
 }
 
 /* Capturas de pantalla */
@@ -63,6 +89,17 @@
   border-radius: 12px;
   background: var(--color-surface);
   box-shadow: 0 2px 10px rgb(15 23 42 / 0.08);
+  cursor: zoom-in;
+}
+/* Captura ampliada (docusaurus-plugin-image-zoom): por encima de la barra superior. */
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: calc(var(--ifm-z-index-fixed) + 10);
+}
+.medium-zoom-image--opened {
+  cursor: zoom-out;
+  max-height: none;
+  border-radius: 6px;
 }
 .markdown p > em:only-child {
   display: block;
@@ -74,15 +111,6 @@
 
 .markdown strong {
   color: var(--color-ink);
-}
-
-/* Tarjetas de perfiles en la portada */
-.markdown ul.perfiles {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  padding: 0;
-  list-style: none;
 }
 
 a:focus-visible,

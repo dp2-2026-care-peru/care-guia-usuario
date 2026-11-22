@@ -77,7 +77,8 @@ function descripcion(texto) {
 
 /** Reescribe las imágenes hacia la carpeta del perfil y agrega su pie de foto. */
 function conImagenes(texto, perfil, origen) {
-  return texto.replace(/^(\s*)!\[([^\]]*)\]\(img\/[^/]+\/([^)]+)\)\s*$/gm, (_, sangria, alt, archivo) => {
+  // [ \t]* y no \s*: \s* se comería la línea en blanco siguiente y pegaría el pie al párrafo de abajo.
+  return texto.replace(/^([ \t]*)!\[([^\]]*)\]\(img\/[^/]+\/([^)]+)\)[ \t]*$/gm, (_, sangria, alt, archivo) => {
     if (!existsSync(join(RAIZ, 'img', perfil, archivo))) throw new Error(`${origen}: no existe la imagen img/${perfil}/${archivo} (ejecuta las capturas)`)
     return `${sangria}![${alt}](./img/${archivo})\n\n${sangria}*${alt}*`
   })
@@ -123,7 +124,9 @@ function tokensCss() {
 function portada(guias) {
   const filas = guias.map((g) => `| [${g.meta.perfil}](./${g.carpeta}/00-introduccion.md) | ${g.meta.para} | ${g.temas} temas |`)
   return documento(
-    { title: 'Guía de uso de la plataforma', sidebar_label: 'Inicio', sidebar_position: 0, slug: '/', description: 'Instrucciones paso a paso, con capturas de pantalla, para usar la plataforma del programa Niñas con Oportunidades.' },
+    { title: 'Guía de uso de la plataforma', sidebar_label: 'Inicio', sidebar_position: 0, slug: '/', description: 'Instrucciones paso a paso, con capturas de pantalla, para usar la plataforma del programa Niñas con Oportunidades.',
+      // Desde la portada, «Siguiente: Introducción» no dice de qué perfil: se elige en la tabla.
+      pagination_next: null },
     `# Guía de uso de la plataforma
 
 Instrucciones paso a paso, con capturas de pantalla, para usar la plataforma del programa Niñas con
@@ -137,6 +140,7 @@ ${filas.join('\n')}
 
 - Cada tema explica una tarea, en pasos numerados y con una captura de pantalla de cada paso.
 - En las capturas, el **recuadro naranja** marca el botón o el campo que debes usar.
+- Toca o haz clic en una captura para verla en tamaño completo; vuelve a tocarla para cerrarla.
 - Las capturas usan un colegio, docentes y estudiantes **de ejemplo**: en tu cuenta verás tus propios datos.
 - Usa el buscador de arriba para encontrar una tarea, por ejemplo «asistencia» o «evidencia».
 - En el celular, abre el menú con el botón de las tres rayas, arriba a la izquierda.

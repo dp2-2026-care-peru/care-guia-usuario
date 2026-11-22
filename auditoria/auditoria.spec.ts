@@ -108,6 +108,12 @@ test('auditoría de la guía de uso', async ({ browser }) => {
         desborde: document.documentElement.scrollWidth > window.innerWidth + 1,
         metadatos: /^\s*(pagina|claves):/m.test(texto),
         ingles: /\b(Search|Next|Previous|Edit this page|On this page)\b/.test(document.body.innerText),
+        // El pie de cada captura va en su propio párrafo, no pegado al texto que sigue.
+        piesPegados: [...document.querySelectorAll('article img')].map((i) => {
+          const pie = i.closest('p')?.nextElementSibling
+          const em = pie?.querySelector(':scope > em:first-child')
+          return pie && em && em.textContent?.trim() === i.getAttribute('alt')?.trim() && pie.textContent?.trim() !== em.textContent?.trim() ? i.getAttribute('alt') : null
+        }).filter(Boolean),
         titulo: document.title,
       }
     })
@@ -117,6 +123,7 @@ test('auditoría de la guía de uso', async ({ browser }) => {
     if (r.desborde) problemas.push(`${ruta}: desborde horizontal en escritorio`)
     if (r.metadatos) problemas.push(`${ruta}: quedaron líneas pagina:/claves: en el texto`)
     if (r.ingles) problemas.push(`${ruta}: textos de la interfaz en inglés`)
+    if (r.piesPegados.length) problemas.push(`${ruta}: pie de foto pegado al párrafo siguiente: ${r.piesPegados.join(', ')}`)
     if (ruta !== '/' && !/\S/.test(r.titulo)) problemas.push(`${ruta}: sin <title>`)
 
     for (const v of await auditarAccesibilidad(page)) problemas.push(`${ruta}: [axe ${v.impact}] ${v.id} · ${v.help} · ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(' | ')}`)
@@ -145,14 +152,36 @@ test('auditoría de la guía de uso', async ({ browser }) => {
     if (desborde) problemas.push(`${ruta}: desborde horizontal en celular`)
   }
   await m.goto('/docente/marcar-la-asistencia')
+  // Áreas táctiles de la barra superior (≥ 44 px, AGENTS.md).
+  const pequenos = async () => m.evaluate(() => [...document.querySelectorAll('.navbar button, .navbar input, .navbar-sidebar button, .navbar-sidebar a.menu__link')]
+    .filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && (r.height < 44 || r.width < 44) })
+    .map((e) => `${e.getAttribute('aria-label') || (e as HTMLElement).innerText.trim()} (${Math.round(e.getBoundingClientRect().width)}×${Math.round(e.getBoundingClientRect().height)})`))
+  for (const p of await pequenos()) problemas.push(`Celular: área táctil menor a 44 px: ${p}`)
+  const etiquetasEnIngles = await m.evaluate(() => [...document.querySelectorAll('[aria-label]')].map((e) => e.getAttribute('aria-label')!).filter((l) => /^(Search|Close|Navigation|Toggle)/i.test(l)))
+  if (etiquetasEnIngles.length) problemas.push(`Celular: etiquetas accesibles en inglés: ${etiquetasEnIngles.join(', ')}`)
   await m.getByRole('button', { name: /Alternar barra/ }).click()
   for (const p of esperado) {
-    if (!(await m.locator('.navbar-sidebar').getByRole('link', { name: p.etiqueta, exact: true }).isVisible())) problemas.push(`Celular: el menú no muestra ${p.etiqueta}`)
+    // El menú entra con una animación: se espera a que el enlace aparezca.
+    await expect(m.locator('.navbar-sidebar').getByRole('link', { name: p.etiqueta, exact: true })).toBeVisible({ timeout: 5000 })
+      .catch(() => problemas.push(`Celular: el menú no muestra ${p.etiqueta}`))
   }
+  for (const p of await pequenos()) problemas.push(`Celular, menú abierto: área táctil menor a 44 px: ${p}`)
   await cel.close()
 
-  // 4. Buscador.
+  // 4. Las capturas se amplían al hacer clic (las de escritorio se ven reducidas).
+  await page.goto('/coordinacion/revisar-el-panel-analitico')
+  if (await page.locator('.navbar__toggle').isVisible()) problemas.push('Escritorio: se ve el botón del menú del celular')
+  // El plugin de ampliación se engancha a las imágenes después de cargar la página.
+  await expect(page.locator('article img.medium-zoom-image').first()).toBeAttached({ timeout: 5000 }).catch(() => {})
+  await page.locator('article img').first().click()
+  await expect(page.locator('.medium-zoom-image--opened')).toBeVisible({ timeout: 3000 })
+    .catch(() => problemas.push('Capturas: hacer clic en una captura no la amplía'))
+  await page.keyboard.press('Escape')
+
+  // 5. Buscador.
   await page.goto('/')
+  const etiquetaBuscador = await page.locator('.navbar__search-input').getAttribute('aria-label')
+  if (etiquetaBuscador !== 'Buscar en la guía') problemas.push(`Buscador: etiqueta accesible «${etiquetaBuscador}»`)
   await page.getByRole('searchbox').or(page.getByPlaceholder(/Buscar/)).first().fill('asistencia')
   const sugerencias = page.locator('.aa-dropdown-menu, [role="listbox"]').first()
   await expect(sugerencias).toContainText(/Marcar la asistencia/, { timeout: 10000 }).catch(() => problemas.push('Buscador: «asistencia» no sugiere «Marcar la asistencia»'))
