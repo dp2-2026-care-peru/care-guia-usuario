@@ -19,8 +19,11 @@ imágenes usan datos de ejemplo.
 pagina: 1
 claves: ingresar, iniciar sesión, menú del gestor, panel analítico, gestor territorial, cerrar sesión
 
-1. Ingresa con tu correo institucional o DNI y tu contraseña. Si la coordinación acaba de crear
-   tu cuenta, tu usuario y tu clave temporal son tu DNI.
+1. Abre la dirección de la plataforma en el navegador e ingresa con tu correo institucional o
+   DNI y tu contraseña. Si la coordinación acaba de crear tu cuenta, tu usuario y tu clave
+   temporal son tu DNI, y en el primer ingreso la plataforma te pide cambiarla. El paso a paso
+   está en [Ingresar a la plataforma](docente.md#ingresar-a-la-plataforma) de la guía docente:
+   la pantalla de ingreso es la misma para todos.
 2. La plataforma abre el **Panel Analítico** de tu ámbito.
 3. El menú tiene **Panel Analítico**, **Estudiantes**, **Docentes** y **Territorio**.
 4. Tu **cartera de docentes** y la **cola de evidencias** todavía no tienen botón en el menú: en
@@ -28,8 +31,9 @@ claves: ingresar, iniciar sesión, menú del gestor, panel analítico, gestor te
 
 ![Panel analítico del gestor](img/gestor/01-panel.jpg)
 
-El panel muestra los indicadores y el mapa de cobertura solo de tu región. Usa los filtros para
-ver una UGEL, un colegio o un salón.
+El panel muestra los indicadores y el mapa de cobertura solo de tus colegios, aunque la etiqueta
+**Alcance** diga «Nacional». Usa los filtros para ver una UGEL, un colegio o un salón. El panel se
+explica en detalle en [Revisar el panel analítico](coordinacion.md#revisar-el-panel-analitico).
 
 ## Revisar tu cartera de docentes
 pagina: 2
@@ -52,7 +56,8 @@ En la cartera encontrarás:
 ![Cartera de docentes del gestor](img/gestor/02-cartera.jpg)
 
 Toca a una docente para ver su resumen a la derecha: avance formativo, sus salones y los botones
-**Matriz docente** y **Ver alumnos I.E.**
+**Matriz docente** y **Ver alumnos I.E.** Debajo hay tres pestañas: **Contacto y Bitácora**,
+**Malla Editable** (para corregir el avance de la docente en cada actividad) y **Criterios**.
 
 ## Registrar un contacto con una docente
 pagina: 3
@@ -60,9 +65,10 @@ claves: registrar contacto, bitácora de contacto, llamada, whatsapp, correo, ac
 
 Cada llamada, mensaje o visita a una docente se registra en su **bitácora de contacto**:
 
-1. En tu cartera, selecciona a la docente.
-2. En la pestaña **Contacto y Bitácora**, elige el **Canal de contacto** (visita, llamada o WhatsApp).
-3. Escribe el resultado de la gestión y el compromiso acordado.
+1. En tu cartera, toca la fila de la docente.
+2. En la pestaña **Contacto y Bitácora** del panel de la derecha, elige el **Canal de contacto**
+   (visita, llamada o WhatsApp).
+3. En **Registrar nuevo contacto**, escribe el resultado de la gestión y el compromiso acordado.
 4. Toca **Guardar en bitácora**.
 
 ![Registrar un contacto en la bitácora](img/gestor/03-cartera-contacto.jpg)
@@ -77,10 +83,12 @@ si la docente tiene esos datos registrados.
 pagina: 4
 claves: programar visita, agenda, visita al colegio, visita presencial, calendario, ics
 
-1. En la pestaña **Contacto y Bitácora** de la docente, toca **Programar visita**.
+1. En la pestaña **Contacto y Bitácora** de la docente, toca **Programar visita** (debajo de
+   **Guardar en bitácora**).
 2. Elige la fecha, la hora y el objetivo principal del acompañamiento.
-3. Toca **Confirmar y agendar**. La visita queda registrada en la bitácora de la docente.
-4. Si quieres tenerla en tu calendario, toca **Exportar evento (.ics)**.
+3. Si quieres tenerla en el calendario de tu celular o tu correo, toca **Exportar evento (.ics)**
+   antes de confirmar: descarga un archivo que tu calendario abre y guarda.
+4. Toca **Confirmar y agendar**. La visita queda registrada en la bitácora de la docente.
 
 ![Programar una visita a la I.E.](img/gestor/05-cartera-visita.jpg)
 
@@ -131,7 +139,9 @@ en tus favoritos para volver con un clic.
 3. Escribe la retroalimentación para la docente; ella la verá en su panel.
 4. Toca **Registrar dictamen y pasar a la siguiente**.
 
-El paso a paso con imágenes está en la guía de la voluntaria, que hace la misma revisión.
+El paso a paso con imágenes está en la guía de la voluntaria, que hace la misma revisión:
+[Revisar una evidencia](voluntaria.md#revisar-una-evidencia) y
+[Registrar el dictamen](voluntaria.md#registrar-el-dictamen).
 
 ## Consultar docentes, estudiantes y colegios
 pagina: 8
@@ -151,4 +161,6 @@ Los módulos del menú muestran solo los registros de tu ámbito:
 
 ![Colegios del gestor](img/gestor/12-territorio.jpg)
 
-Los pasos para registrar docentes y estudiantes son los mismos que en la guía de coordinación.
+Los pasos para registrar docentes y estudiantes son los mismos que en la guía de coordinación:
+[Gestionar el padrón docente](coordinacion.md#gestionar-el-padron-docente) y
+[Registrar o importar estudiantes](coordinacion.md#registrar-o-importar-estudiantes).

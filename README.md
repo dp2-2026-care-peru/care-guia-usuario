@@ -85,6 +85,9 @@ El número de cada recorrido fija el orden de ejecución:
 
 - Cada sección `##` es un tema. Debajo lleva `pagina:` (su número) y `claves:`. Estas líneas no se ven en el sitio.
 - Las `claves:` son las frases con las que el asistente encuentra el tema. Usa frases específicas («marcar asistencia», «programar visita»), no palabras sueltas comunes («estudiantes», «aula», «sesiones»). Esas palabras aparecen en casi todas las preguntas pedagógicas, y el asistente terminaría respondiendo con la guía de uso en lugar de la pedagógica.
+- **Enlaces entre temas:** escribe `[texto](#ancla-del-tema)` para un tema de la misma guía, o `[texto](gestor.md#ancla-del-tema)` para uno de otra guía. El ancla es el título del tema en minúsculas, sin tildes y con guiones. `construir.mjs` los convierte en enlaces a la página del tema y falla si el tema no existe. Escribe cada enlace en una sola línea.
+- **Preguntas de ejemplo:** las preguntas de ejemplo dirigidas al asistente («¿Cómo calmo al grupo…?») se quitan de la copia del asistente cuando van precedidas de «por ejemplo». Si quedaran, el asistente respondería esa pregunta pedagógica con la guía de uso.
+- **Nombres de botones:** escribe el nombre exacto de cada botón, en negrita, tal como aparece en la pantalla. Si el botón no se ve en la captura, di dónde está (por ejemplo, «al final de la ventana»).
 
 ## Copias para el asistente curricular
 

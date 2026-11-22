@@ -19,7 +19,9 @@ ejemplo.
 pagina: 1
 claves: ingresar, iniciar sesión, menú de evaluación, evaluación de impacto, panel analítico
 
-1. Ingresa con tu correo institucional o DNI y tu contraseña.
+1. Abre la dirección de la plataforma en el navegador e ingresa con tu correo institucional o
+   DNI y tu contraseña. El paso a paso está en
+   [Ingresar a la plataforma](docente.md#ingresar-a-la-plataforma) de la guía docente.
 2. La plataforma abre **Evaluación de Impacto**.
 3. El menú tiene **Evaluación de Impacto** y **Panel Analítico**. El tablero de egresadas todavía
    no tiene botón en el menú: el tema «Seguir la trayectoria de las egresadas» explica cómo abrirlo.
@@ -42,7 +44,9 @@ diferencia.
 pagina: 3
 claves: cobertura de la medición, censo, muestra, modalidad presencial, modalidad virtual, margen de error, sesgo
 
-**Cobertura de la medición** separa las dos formas de medir:
+**Cobertura de la medición** está a la derecha de la misma pantalla de **Evaluación de Impacto**
+(en la imagen de [Comparar las pruebas de entrada y salida](#comparar-las-pruebas-de-entrada-y-salida)).
+Separa las dos formas de medir:
 
 - **Censo · Modalidad presencial**: porcentaje de participantes con pre y post test aplicados en aula.
 - **Muestra · Modalidad virtual**: participantes de la muestra virtual y su margen de error.

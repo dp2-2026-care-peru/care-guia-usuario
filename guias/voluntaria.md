@@ -17,7 +17,9 @@ y cómo registrar tu dictamen. Las imágenes usan datos de ejemplo.
 pagina: 1
 claves: ingresar, iniciar sesión, voluntaria, cola de evidencias, evidencias pendientes
 
-1. Ingresa con tu correo o DNI y tu contraseña.
+1. Abre la dirección de la plataforma en el navegador e ingresa con tu correo o DNI y tu
+   contraseña. El paso a paso está en
+   [Ingresar a la plataforma](docente.md#ingresar-a-la-plataforma) de la guía docente.
 2. La plataforma abre la **Cola de Evidencias Pedagógicas**. Es tu única opción del menú.
 3. Cada fila es una evidencia: la docente, su colegio y sección, el eje temático, la cantidad de
    archivos y cuándo se subió.
@@ -31,7 +33,15 @@ claves: revisar evidencia, dictamen de evidencia, foto del aula, guion adaptado
 
 La pantalla **Dictamen de Evidencia Pedagógica** muestra arriba la sesión, el eje, la docente y el
 colegio. A la izquierda están los archivos de la evidencia; a la derecha, el guion adaptado que
-adjuntó la docente (si lo hay) y el formulario del dictamen.
+adjuntó la docente y el formulario del dictamen.
+
+1. Lee arriba el **eje** y el **número de sesión**: la evidencia debe mostrar el trabajo de esa
+   sesión.
+2. Mira la foto grande de la izquierda. Si la evidencia tiene varias fotos, toca las miniaturas de
+   abajo para verlas una por una.
+3. Lee el **guion adaptado**: explica cómo la docente adaptó la sesión. Si dice **Sin guion
+   adjunto**, la docente no subió un guion propio y debajo aparece el resumen de la sesión.
+4. **Volver a la cola** te regresa a la lista sin registrar nada.
 
 ![Pantalla de dictamen de una evidencia](img/voluntaria/02-revision.jpg)
 

@@ -26,8 +26,11 @@ Los tres perfiles comparten casi todo:
 pagina: 1
 claves: ingresar, iniciar sesión, menú, módulos, coordinación, administración, monitoreo, cerrar sesión
 
-1. Ingresa con tu correo institucional o DNI y tu contraseña. Si la olvidaste, toca
-   **¿Olvidaste tu contraseña?** en la pantalla de ingreso.
+1. Abre la dirección de la plataforma en el navegador e ingresa con tu correo institucional o
+   DNI y tu contraseña. Si es tu primer ingreso, la plataforma te pide cambiar la contraseña
+   temporal. El paso a paso, y cómo recuperar la contraseña, están en
+   [Ingresar a la plataforma](docente.md#ingresar-a-la-plataforma) de la guía docente: la
+   pantalla de ingreso es la misma para todos.
 2. La plataforma abre el **Panel Analítico**.
 3. Usa el menú de la izquierda para cambiar de módulo. En el celular, ábrelo con el botón de las
    tres rayas.
@@ -70,11 +73,13 @@ Para llevarte los datos del panel a una hoja de cálculo, aplica los filtros que
 pagina: 4
 claves: padrón de estudiantes, maestro nacional, buscar estudiante, consentimiento, seudonimizado, studentkey, matriz de actividades
 
-En **Estudiantes** está el padrón nacional. Puedes buscar por StudentKey, iniciales, DNI o nombres,
-y filtrar por región, grado, sección, sexo, año, estado, consentimiento y lideresa.
+En **Estudiantes** está el padrón nacional. Cada estudiante tiene un **StudentKey**: su código
+único en el programa (por ejemplo, GUIA-0001), que no cambia aunque cambie de sección o de año.
+Puedes buscar por StudentKey, iniciales, DNI o nombres, y filtrar por región, grado, sección, sexo,
+año, estado, consentimiento y lideresa.
 
-Por protección de datos personales (Ley N.° 29733), las estudiantes sin consentimiento firmado
-aparecen seudonimizadas: con su código (StudentKey) e iniciales.
+Por protección de datos personales (Ley N.° 29733), las estudiantes sin consentimiento firmado de
+sus padres aparecen **seudonimizadas**: solo con su StudentKey e iniciales, sin nombre ni DNI.
 
 ![Padrón nacional de estudiantes](img/coordinacion/05-estudiantes.jpg)
 
@@ -90,18 +95,22 @@ Para registrar a una estudiante:
 1. Toca **Nuevo Estudiante**.
 2. Elige la institución educativa, el grado, la sección, el año lectivo y el número de orden.
 3. Marca si cuenta con consentimiento informado firmado. Sin consentimiento, la estudiante se
-   registra seudonimizada.
-4. Completa sus datos y guarda.
+   registra seudonimizada. Con consentimiento, indica también la fecha en que se firmó.
+4. Completa sus datos (los campos con asterisco son obligatorios) y toca **Registrar Estudiante**,
+   al final de la ventana.
 
 ![Formulario para registrar una estudiante](img/coordinacion/06-estudiantes-nuevo.jpg)
 
 Para cargar una nómina completa:
 
-1. Toca **Importar Nómina** y descarga la **Plantilla Oficial de Matrícula** (.xlsx).
-2. Llénala y arrástrala a la ventana (o haz clic para elegirla). Acepta .xlsx o .csv.
-3. Toca **Simular Validación (Dry-Run)**. Es obligatorio: revisa las inconsistencias antes de
-   grabar.
-4. Si todo está bien, toca **Confirmar e Importar**.
+1. Toca **Importar Nómina**. En la ventana, toca **Descargar Plantilla (.xlsx)**: es el formato
+   oficial, con las columnas que la plataforma espera.
+2. Llena la plantilla y arrástrala al recuadro punteado de la derecha (o haz clic en él para
+   elegirla). Acepta .xlsx o .csv de hasta 10 MB.
+3. Toca **Simular Validación (Dry-Run)**. La simulación revisa el archivo **sin grabar nada** y te
+   muestra las filas con problemas. Es obligatoria: corrige el archivo y vuelve a simular si hace
+   falta.
+4. Cuando la simulación no muestre errores, toca **Confirmar e Importar**.
 
 ![Importación de la nómina escolar](img/coordinacion/07-estudiantes-importar.jpg)
 
@@ -116,10 +125,14 @@ indicadores muestran cuántas fueron contactadas, cuántas siguen estudiando y c
 
 Para registrar un contacto:
 
-1. En la fila de la egresada, toca **Seguimiento**.
-2. Elige el hito (año post-egreso), la fecha, el canal de contacto y si fue ubicada.
+1. En la fila de la egresada, toca **Seguimiento** (al final de la fila; desplaza la tabla hacia
+   la derecha si no lo ves).
+2. Elige el hito (cuántos años pasaron desde que egresó), la fecha, el canal de contacto y si
+   fue ubicada.
 3. Registra su situación educativa y laboral, y la carrera, institución u ocupación.
-4. Completa los campos adicionales y, si aplicaste una encuesta, sus respuestas. Guarda.
+4. Completa los campos adicionales y, si aplicaste una encuesta, abre **Encuestas de seguimiento
+   aplicadas** y registra sus respuestas.
+5. Toca **Registrar Seguimiento**, al final de la ventana.
 
 ![Registro de seguimiento de una egresada](img/coordinacion/08b-egresadas-seguimiento.jpg)
 
@@ -130,14 +143,18 @@ seguimiento.
 pagina: 7
 claves: encuestas, formularios de encuesta, crear formulario, resultados, estadísticas, exportar csv
 
-En la pestaña **Formularios de Encuesta** puedes crear, editar, clonar o pausar los cuestionarios
-de seguimiento. Los formularios **En Campo** aparecen automáticamente en la ventana de
-**Seguimiento** de cada egresada.
+En la pestaña **Formularios de Encuesta** están los cuestionarios de seguimiento. Para crear uno,
+toca **Crear Nuevo Formulario**. En cada tarjeta, **Editar** cambia sus preguntas, **Vista Previa**
+lo muestra como lo verá quien responde, y los íconos de abajo a la derecha lo clonan o lo pausan.
+Los formularios **En Campo** aparecen automáticamente en la ventana de **Seguimiento** de cada
+egresada.
 
 ![Formularios de encuesta post-egreso](img/coordinacion/09-egresadas-encuestas.jpg)
 
-En **Resultados y Estadísticas** eliges una encuesta y ves las respuestas por pregunta, la
-cobertura del padrón y la fecha de la última respuesta. **Exportar CSV** descarga las respuestas.
+En **Resultados y Estadísticas** eliges una encuesta en **Encuesta a analizar** y ves las
+respuestas por pregunta, la cobertura del padrón y la fecha de la última respuesta. **Exportar
+CSV** descarga las respuestas. Si la encuesta todavía no tiene respuestas, los indicadores
+aparecen en cero y dicen «Sin registros», como en la imagen.
 
 ![Resultados de una encuesta](img/coordinacion/10-egresadas-resultados.jpg)
 
@@ -155,12 +172,15 @@ Para registrar a una docente:
 1. Toca **Nuevo Docente**.
 2. Escribe su DNI, nombres, apellidos, correo y teléfono, y elige el tipo de tutoría y su colegio.
 3. Toca **Registrar Docente**. La plataforma crea su cuenta: el usuario y la clave temporal son su
-   DNI. Pídele que la cambie al ingresar.
+   DNI. En su primer ingreso, la plataforma le pedirá cambiar esa clave por una propia.
+4. Envíale a la docente la dirección de la plataforma, su usuario (su DNI) y el enlace a la
+   [guía docente](docente.md).
 
 ![Formulario para registrar una docente](img/coordinacion/12-docentes-nuevo.jpg)
 
-**Importar padrón** carga varias docentes desde un archivo, y el lápiz de cada fila edita sus datos
-(ambas acciones son de coordinación y administración). La pestaña **Matriz de Actividades**
+**Importar padrón** carga varias docentes desde un archivo, y el lápiz al final de cada fila edita
+sus datos (desplaza la tabla hacia la derecha si no lo ves). Ambas acciones son de coordinación y
+administración. La pestaña **Matriz de Actividades**
 muestra el avance de cada docente en las actividades del plan formativo:
 
 ![Matriz de actividades de las docentes](img/coordinacion/13-docentes-matriz.jpg)
@@ -192,12 +212,15 @@ región, provincia, distrito, UGEL y modalidad. Toca el nombre de un colegio par
 En la ficha del colegio ves el cumplimiento de sesiones, la asistencia, el avance de sus docentes
 y su desempeño, con sus aulas, docentes y alumnos en pestañas. Desde la pestaña **Aulas** puedes:
 
-- Crear una sección con **Agregar Sección**.
+- Crear una sección con **Agregar Sección** (hay un botón por grado).
 - Asignar o cambiar la docente tutora de una sección con **Editar Tutor**.
-- Descargar los datos del colegio con **Exportar Colegio (.xlsx)**.
 
-**Configurar regiones donde funciona CARE** activa o desactiva las regiones de intervención del
-programa. Los colegios de las regiones activas entran en los filtros de toda la plataforma.
+Arriba, **Exportar Colegio (.xlsx)** descarga los datos del colegio y **Editar I.E.** corrige sus
+datos.
+
+En **Territorio**, el botón **Configurar Regiones CARE** abre la lista de regiones de
+intervención del programa: actívalas o desactívalas con el interruptor de cada una y toca
+**Cerrar**. Los colegios de las regiones activas entran en los filtros de toda la plataforma.
 
 ![Regiones de intervención de CARE](img/coordinacion/15-territorio-regiones.jpg)
 
@@ -213,8 +236,9 @@ colegios y docentes a su cargo, y las alertas de atraso.
 
 ![Maestro de gestores territoriales](img/coordinacion/16-gestores.jpg)
 
-Para registrar a un gestor, toca **Nuevo Gestor** y completa su DNI, teléfono, nombres y correo
-institucional. Su cuenta se crea con usuario y clave temporal igual a su DNI.
+Para registrar a un gestor, toca **Nuevo Gestor**, completa su DNI, teléfono, nombres y correo
+institucional, y toca **Registrar Gestor**. Su cuenta se crea con usuario y clave temporal igual a
+su DNI; en su primer ingreso la plataforma le pide cambiarla.
 
 ![Formulario para registrar un gestor](img/coordinacion/17-gestores-nuevo.jpg)
 
@@ -227,9 +251,11 @@ Para asignarle colegios, abre su ficha tocando su nombre y usa **Asignar Territo
 pagina: 12
 claves: malla curricular, configurar sesiones, ejes temáticos, plazo máximo, campos, evaluación, clonar malla, grado
 
-En **Malla Curricular** → **Malla Curricular Estudiantes** defines las sesiones oficiales de cada
-grado (3.°, 4.° y 5.° de secundaria) para el año: su título, eje temático, plazo máximo y los
-campos que la docente debe registrar.
+En **Malla Curricular**, el selector de arriba a la derecha tiene dos opciones: **Malla Curricular
+Estudiantes** (las sesiones de aula) y **Malla Formativa Docente** (el plan de formación, que se
+explica en el tema siguiente). En **Malla Curricular Estudiantes** defines las sesiones oficiales
+de cada grado para el año: su título, eje temático, plazo máximo y los campos que la docente debe
+registrar.
 
 ![Sesiones oficiales de la malla curricular](img/coordinacion/18-malla.jpg)
 
@@ -260,7 +286,9 @@ las docentes de cada cohorte:
 - El **umbral de aprobación** y las **horas totales de certificación** (toca **Guardar Umbral y
   Horas**).
 - Los **criterios de aprobación**, con su peso porcentual (deben sumar 100 %) y sus actividades.
-  **Distribuir equitativamente** reparte los pesos por igual.
+  **Nuevo Criterio** y **Nueva Actividad** los crean. **Distribuir equitativamente** reparte los
+  pesos por igual. Después de cambiar los pesos, toca **Guardar Pesos de Criterios**: si no, los
+  cambios se pierden.
 - **Importar catálogo de Moodle** y **Sincronizar avances Moodle** traen las actividades y el
   avance de las docentes desde el aula virtual.
 
@@ -275,14 +303,15 @@ claves: bitácora, asistente, consultas IA, preguntas de docentes, registro de c
 La **Bitácora de Consultas IA** registra las preguntas que las docentes hacen al asistente
 curricular: la fecha, el usuario, la pregunta y el eje de la guía que respondió. Sirve para ver
 qué temas consultan más. Puedes buscar por pregunta, sesión o usuario. Coordinación y monitoreo la
-pueden abrir.
+pueden abrir. Cada usuario aparece con su código interno (por ejemplo, UID-6), no con su nombre.
 
 Esta pantalla todavía no tiene botón en el menú. Para abrirla, en la barra de direcciones del
 navegador cambia lo que va después del nombre de la plataforma por **/asistente/bitacora** y presiona Enter.
 Por ejemplo, `plataforma.ejemplo.pe/analitica/cobertura` pasa a ser `plataforma.ejemplo.pe/asistente/bitacora`. Guárdala
 en tus favoritos para volver con un clic.
 
-Por ahora las columnas de modelo y latencia aparecen como «Pendiente»: esos datos se guardan, pero
+Por ahora las columnas de modelo y latencia aparecen como «Pendiente BE», y arriba hay un recuadro
+con una nota técnica para el equipo de desarrollo: puedes ignorarlo. Esos datos se guardan, pero
 la pantalla todavía no los muestra.
 
 ![Bitácora de consultas al asistente](img/coordinacion/21-bitacora.jpg)

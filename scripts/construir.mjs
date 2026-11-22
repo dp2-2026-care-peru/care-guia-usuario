@@ -94,9 +94,16 @@ function documento(frente, cuerpo) {
 function copiaAsistente(meta, cuerpo) {
   const lineas = cuerpo.split('\n')
     .filter((l) => !/^!\[/.test(l.trim()) && !/^# /.test(l))
-    .map((l) => l.replace(/\*\*(.+?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1'))
+    .map((l) => l.replace(/`([^`]+)`/g, '$1')
+      // Los enlaces entre temas quedan como texto: el asistente cita cada tema con su propio enlace.
+      .replace(/\[([^\]]+)\]\((?:[a-z-]+\.md)?(?:#[a-z0-9-]+)?\)/g, '$1'))
   const primeraSeccion = lineas.findIndex((l) => l.startsWith('## '))
   const texto = lineas.slice(primeraSeccion).join('\n').replace(/\n{3,}/g, '\n\n')
+    // Negritas sobre el texto completo: algunas abarcan dos líneas de la fuente.
+    .replace(/\*\*([\s\S]+?)\*\*/g, '$1')
+    // Las preguntas de ejemplo («¿Cómo calmo al grupo…?») se quitan de la copia: si quedan, el
+    // asistente responde esa pregunta pedagógica con la guía de uso en vez de con las fichas.
+    .replace(/[ \t]*,?[ \t]*\b[Pp]or ejemplo[,:]?\s+«¿[^»]*\?»/g, '')
   return `---
 titulo: ${meta.titulo}
 eje: ${meta.eje}
@@ -158,8 +165,26 @@ function construir() {
   if (HAY_PLATAFORMA) writeFileSync(join(DOCUSAURUS, 'src', 'css', 'tokens.css'), tokensCss())
   else console.log(`Sin la plataforma en ${PLATAFORMA}: se usa el tokens.css versionado y no se actualizan las copias del asistente.`)
 
+  const fuentes = readdirSync(RAIZ).filter((n) => n.endsWith('.md') && n !== 'README.md').sort()
+  // Primera pasada: archivo de cada tema, para resolver los enlaces entre temas y entre guías.
+  const mapa = new Map()
+  for (const nombre of fuentes) {
+    const { meta, cuerpo } = leerGuia(join(RAIZ, nombre))
+    const temas = new Map(partir(cuerpo).temas.map((t, i) => [ancla(t.titulo), `${String(i + 1).padStart(2, '0')}-${ancla(t.titulo)}.md`]))
+    mapa.set(nombre, { carpeta: meta.archivo.replace(/\/$/, ''), temas })
+  }
+  /** [texto](#tema) y [texto](otra-guia.md#tema) → enlace al archivo del tema en docs/. */
+  const conEnlaces = (texto, nombre) => texto.replace(/\]\(([a-z-]+\.md)?(?:#([a-z0-9-]+))?\)/g, (todo, guia, tema) => {
+    if (!guia && !tema) return todo
+    const destino = mapa.get(guia ?? nombre)
+    if (!destino) throw new Error(`${nombre}: el enlace ${todo} apunta a una guía que no existe`)
+    const archivo = tema ? destino.temas.get(tema) : '00-introduccion.md'
+    if (!archivo) throw new Error(`${nombre}: el enlace ${todo} apunta a un tema que no existe`)
+    return `](${guia ? `../${destino.carpeta}/` : './'}${archivo})`
+  })
+
   const guias = []
-  for (const nombre of readdirSync(RAIZ).filter((n) => n.endsWith('.md') && n !== 'README.md').sort()) {
+  for (const nombre of fuentes) {
     const { meta, cuerpo } = leerGuia(join(RAIZ, nombre))
     meta.fuente = nombre
     const perfil = nombre.replace(/\.md$/, '')
@@ -181,11 +206,11 @@ function construir() {
     writeFileSync(join(destino, '00-introduccion.md'), documento(
       // Anterior/Siguiente no salen del perfil: la introducción no enlaza al perfil previo.
       { title: titulo, sidebar_label: 'Introducción', sidebar_position: 0, slug: `/${carpeta}`, description: descripcion(intro), pagination_prev: null },
-      `# ${titulo}\n\n${conImagenes(intro, perfil, nombre)}\n\n## Temas de esta guía\n\n${lista.join('\n')}`,
+      `# ${titulo}\n\n${conEnlaces(conImagenes(intro, perfil, nombre), nombre)}\n\n## Temas de esta guía\n\n${lista.join('\n')}`,
     ))
 
     temas.forEach((t, i) => {
-      const texto = conImagenes(t.lineas.join('\n').trim(), perfil, nombre)
+      const texto = conEnlaces(conImagenes(t.lineas.join('\n').trim(), perfil, nombre), nombre)
       writeFileSync(join(destino, `${String(i + 1).padStart(2, '0')}-${ancla(t.titulo)}.md`), documento(
         { title: t.titulo, sidebar_position: i + 1, slug: `/${carpeta}/${ancla(t.titulo)}`, description: descripcion(texto), keywords: t.claves, pagination_next: i === temas.length - 1 ? null : undefined },
         `# ${t.titulo}\n\n${texto}`,

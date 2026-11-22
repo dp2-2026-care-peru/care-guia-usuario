@@ -22,34 +22,53 @@ pantallas que la docente titular.
 pagina: 1
 claves: ingresar, iniciar sesión, login, entrar, usuario, contraseña, correo, DNI, acceso
 
-Para entrar a la plataforma necesitas el correo institucional o el DNI con el que te
-registraron, y tu contraseña.
+Para entrar a la plataforma necesitas tres datos que te entrega tu gestor territorial o la
+coordinación del programa: la **dirección de la plataforma** (empieza con `https://`), tu
+**usuario** (tu correo institucional o tu DNI) y tu **contraseña**. Si te acaban de crear la
+cuenta, tu contraseña inicial es tu número de DNI.
 
-1. Abre la plataforma en el navegador de tu celular o computadora.
+1. Abre el navegador de tu celular o computadora (por ejemplo, Chrome), escribe la dirección de
+   la plataforma en la barra de arriba y presiona Enter.
 2. En **Correo o DNI**, escribe tu correo institucional o tu número de DNI.
 3. En **Contraseña**, escribe tu clave. Puedes tocar el ícono del ojo para ver lo que escribiste.
 4. Toca **Ingresar**. La plataforma te lleva a tu **Panel de inicio**.
 
 ![Formulario de ingreso con el botón Ingresar resaltado](img/docente/01-ingreso.jpg)
 
+**La primera vez** que ingresas con la contraseña inicial, la plataforma te pide cambiarla: aparece
+el aviso «Cambia la contraseña temporal para continuar». Escribe una contraseña nueva de al menos
+8 caracteres en los dos campos y toca **Cambiar contraseña e ingresar**. Desde ese momento usa la
+contraseña nueva.
+
 Tu sesión se mantiene abierta durante la jornada. Si escribes mal la contraseña, verás el
 mensaje «Credenciales incorrectas»: revisa que no tengas activadas las mayúsculas.
+
+En el celular, puedes guardar la plataforma como una aplicación: en el menú del navegador (los
+tres puntos de Chrome) toca **Agregar a la pantalla principal**. Así la abres con un toque, como
+cualquier otra aplicación.
 
 ## Recuperar tu contraseña
 pagina: 2
 claves: olvidé mi contraseña, recuperar contraseña, restablecer clave, cambiar contraseña, token, no puedo entrar
 
-Si olvidaste tu contraseña, puedes crear una nueva sin pedir ayuda.
+Si olvidaste tu contraseña, puedes crear una nueva sin pedir ayuda. Necesitas acceso a tu correo
+institucional.
 
-1. En la pantalla de ingreso, toca **¿Olvidaste tu contraseña?**.
-2. Escribe tu correo institucional o tu DNI y toca **Enviar instrucciones**.
-3. Revisa tu correo: si los datos coinciden con una cuenta activa, recibirás un código (token).
-4. Vuelve a la plataforma, toca **¿Ya tienes un token? Ingresar código** y crea tu nueva contraseña.
+1. En la pantalla de ingreso, toca **¿Olvidaste tu contraseña?** (debajo del botón Ingresar).
+2. En la ventana **Recuperar contraseña**, escribe tu correo institucional o tu DNI y toca
+   **Enviar instrucciones**.
+3. Abre tu correo. Te llegará un mensaje de la plataforma con el botón **Restablecer
+   contraseña**. Tócalo: se abre la plataforma.
+4. Escribe tu nueva contraseña dos veces y confírmala. Luego ingresa con ella.
 
 ![Ventana para recuperar la contraseña](img/docente/02-recuperar-contrasena.jpg)
 
+El enlace del correo **vence a los 15 minutos**. Si venció, vuelve a pedirlo desde el paso 1.
 Si no te llega el correo en unos minutos, revisa la carpeta de correo no deseado o comunícate
 con tu gestor territorial.
+
+Si en lugar del botón recibiste un código (token), vuelve a abrir **¿Olvidaste tu contraseña?**,
+toca **¿Ya tienes un token? Ingresar código**, pega el código y escribe tu nueva contraseña.
 
 ## Conocer tu panel de inicio
 pagina: 3
@@ -65,8 +84,11 @@ El **Panel de inicio** es lo primero que ves al ingresar. Reúne lo más importa
 
 ![Panel de inicio de la docente](img/docente/03-inicio.jpg)
 
-En el borde inferior del menú verás el estado de sincronización. **Sincronizado** significa
-que todo lo que registraste ya está guardado en el servidor.
+El estado de sincronización aparece al final del menú en la computadora, y arriba a la derecha en
+el celular. **Sincronizado** significa que todo lo que registraste ya está guardado en el servidor.
+
+Las palabras **Rojo · Rezagada** y «Te faltan N criterios» se refieren a tu plan de formación: se
+explican en [Revisar tu avance en Mi Formación](#revisar-tu-avance-en-mi-formacion).
 
 ## Moverte por el menú desde el celular
 pagina: 4
@@ -115,12 +137,14 @@ Puedes hacerlo desde el celular mientras dictas la clase.
 ![Botón Registrar Asistencia y Aula en el celular](img/docente/06-movil-inicio.jpg)
 
 2. Se abre el **Registro de aula** de tu sección, con la sesión del día. Arriba verás los tres
-   pasos; empiezas en **1. Asistencia**.
+   pasos (**1. Asistencia**, **2. Notas** y **3. Cierre**); empiezas en **1. Asistencia**.
 
-![Paso 1: lista de asistencia de la sección](img/docente/07-movil-asistencia.jpg)
+![Paso 1: registro de aula con los tres pasos arriba](img/docente/07-movil-asistencia.jpg)
 
 Por protección de datos personales (Ley N.° 29733), las estudiantes aparecen con su número de
-nómina y sus iniciales, no con su nombre completo.
+nómina y sus iniciales, no con su nombre completo. El número es el mismo de tu registro escolar.
+
+Sigue con [Marcar la asistencia](#marcar-la-asistencia).
 
 ## Marcar la asistencia
 pagina: 7
@@ -144,16 +168,19 @@ En el paso **2. Notas** registras la evaluación que corresponde a la sesión. E
 evaluación y su escala aparecen arriba (por ejemplo, «Evaluación Diagnóstica de Entrada HSE»,
 escala de 0 a 20). Solo se califica a las estudiantes presentes; las ausentes aparecen con «—».
 
-1. Toca la fila de la estudiante.
-2. Escribe la nota con el teclado numérico que aparece abajo.
+1. Toca la fila de la estudiante. Abajo aparece un teclado con números.
+2. Toca los dígitos de la nota, uno por uno. Por ejemplo, para un 12 toca **1** y luego **2**.
+   El botón **20** escribe la nota máxima de un solo toque.
 3. Toca **✓** para confirmar. La plataforma pasa sola a la siguiente estudiante.
-4. Si quieres, escribe un comentario opcional para esa estudiante.
-5. Cuando termines, toca **Continuar al cierre de sesión**.
+4. Si quieres, escribe un comentario opcional para esa estudiante en el cuadro que aparece
+   debajo de su fila.
+5. Cuando termines, toca **Continuar al cierre de sesión**, al final de la lista.
 
-![Teclado numérico para registrar la nota de una estudiante](img/docente/09-movil-notas.jpg)
+![Nota de la estudiante #4: se tocó 1 y falta tocar 2 para registrar un 12](img/docente/09-movil-notas.jpg)
 
-La barra de avance te indica cuántas notas llevas registradas. Para cerrar la sesión, todas
-las estudiantes presentes deben tener nota.
+La barra de avance (por ejemplo, «2 de 12 registradas») te indica cuántas notas llevas. Para cerrar
+la sesión, todas las estudiantes presentes deben tener nota. **Ocultar** esconde el teclado si
+necesitas ver la lista completa; vuelve a tocar una fila para mostrarlo.
 
 ## Adjuntar evidencias y comentar la sesión
 pagina: 9
@@ -167,13 +194,20 @@ ausencias) y puedes dejar constancia de lo que hiciste.
 2. Para subir fotos del aula (por ejemplo, un papelógrafo), toca **+ Adjuntar general**. En
    el celular puedes tomar la foto en ese momento o elegirla de tu galería. Puedes elegir
    varias a la vez.
-3. Si la evidencia es de una estudiante en particular, toca **Adjuntar** en su fila.
+3. Si la evidencia es de una estudiante en particular, toca **Adjuntar** en su fila. Las
+   estudiantes ausentes no pueden tener evidencia: su botón aparece apagado.
 
 ![Comentario de la sesión y evidencia adjunta](img/docente/10-movil-evidencias.jpg)
 
 Las fotos se comprimen automáticamente para que pesen poco y se suban rápido aunque tengas
 poca señal. También puedes adjuntar documentos en PDF o Word. Si te equivocaste de archivo,
 toca el ícono del tacho sobre la miniatura para quitarlo.
+
+Si la sesión dice **Requiere evidencia fotográfica**, sube al menos una foto antes de cerrar. La
+plataforma te deja cerrar sin fotos, pero la evidencia es parte de tu registro de la sesión.
+
+Al final del paso aparece **Guardar cambios**: guarda lo que llevas sin cerrar la sesión, por si
+necesitas terminar más tarde. No es necesario tocarlo antes de cerrar.
 
 ## Cerrar y sincronizar la sesión
 pagina: 10
@@ -183,12 +217,16 @@ Al final del paso **3. Cierre**, toca **Cerrar y sincronizar sesión**.
 
 ![Botón Cerrar y sincronizar sesión](img/docente/11-movil-cerrar.jpg)
 
+**Cuidado con los nombres parecidos:** **Cerrar y sincronizar sesión** termina la sesión de clase
+que registraste. **Cerrar sesión**, al final del menú, te saca de la plataforma y no guarda el
+registro como terminado.
+
 Si el botón está desactivado, lee el aviso **Pendiente para cerrar** que aparece encima: te
 dice qué falta, por ejemplo «Faltan notas obligatorias por registrar en 2 estudiante(s)
 presente(s)». Vuelve al paso **2. Notas**, complétalas y regresa al cierre.
 
 Al cerrar, la plataforma guarda la sesión, la marca como ejecutada y te lleva a
-**Mi Formación**, porque las sesiones que implementas cuentan para tu plan formativo.
+**Mi Formación**, donde ves tu avance en el plan formativo.
 
 ![Mi Formación después de cerrar la sesión](img/docente/12-movil-sesion-cerrada.jpg)
 
@@ -204,15 +242,19 @@ claves: computadora, laptop, escritorio, registro en computadora, tabla de aula,
 En la computadora, el registro de aula muestra todo en una sola tabla: asistencia, nota,
 evidencia y comentario de cada estudiante, con el resumen y las evidencias a la derecha.
 
-1. Entra a **Sesiones** y toca **Registrar Sesión y Aula** en la sesión activa.
-2. En cada fila, cambia **Presente** a **Ausente** si la estudiante faltó, escribe la nota y,
-   si corresponde, adjunta la evidencia.
-3. Toca **Guardar avance** para guardar sin cerrar; puedes terminar más tarde.
-4. Cuando todo esté completo, toca **Cerrar sesión del día**.
+1. Entra a **Sesiones** y toca **Registrar Sesión y Aula** en la sesión activa (en la vista
+   **Tabla**, el botón se llama **Registrar**).
+2. En cada fila, toca **Presente** para cambiarlo a **Ausente** si la estudiante faltó, escribe
+   la nota en su casilla y, si corresponde, toca **Adjuntar** para subir su evidencia.
+3. Toca **Guardar avance** (arriba a la derecha) para guardar sin cerrar; puedes terminar más tarde.
+4. Cuando todo esté completo, toca **Cerrar sesión del día**. Mientras falte algo, el botón está
+   apagado y el aviso **Pendiente para cerrar sesión** dice qué falta.
 
 ![Registro de aula en la computadora](img/docente/15-escritorio-aula.jpg)
 
 La tabla muestra diez estudiantes por página: usa **Siguiente** y **Anterior** para ver el resto.
+Igual que en el celular, **Cerrar sesión del día** termina la sesión de clase, y **Cerrar sesión**
+del menú te saca de la plataforma.
 
 ## Trabajar sin conexión a internet
 pagina: 12
@@ -241,7 +283,10 @@ En **Estudiantes** ves la nómina de tu sección con la condición, el porcentaj
 el promedio de cada estudiante.
 
 - Usa los filtros **Todos**, **Regulares** y **Lideresas**, o el buscador.
-- En la parte superior puedes cambiar de sección si tienes más de una a cargo.
+- En la parte superior puedes cambiar de sección si tienes más de una a cargo (**Cambiar de
+  sección**).
+- El recuadro **Actividades y talleres complementarios** muestra las actividades extra que la
+  administración habilitó para tu sección, para que las califiques. Si no hay ninguna, lo dice.
 
 ![Nómina de estudiantes de la sección](img/docente/16-estudiantes.jpg)
 
@@ -276,8 +321,9 @@ claves: mi formación, plan formativo, horas, horas acreditadas, avance formativ
 En **Mi Formación** ves tu avance en el plan de formación docente del programa.
 
 - El círculo muestra tu porcentaje de avance y las horas acreditadas frente a las horas del plan.
-- El semáforo indica tu estado: **rojo** (rezagada), **ámbar** o **verde**. Cuando alcanzas el
-  verde se habilita **Imprimir constancia oficial (PDF)**.
+- El semáforo indica tu estado: **rojo** (rezagada), **ámbar** o **verde**. La barra de avance
+  tiene marcas que indican desde qué porcentaje cambia cada color. Cuando alcanzas el verde se
+  habilita **Imprimir constancia oficial (PDF)**; mientras tanto el botón aparece apagado.
 - **Imprimir ficha de avance** genera un resumen de tu avance para imprimir o guardar.
 - **Último corte Moodle** indica cuándo se trajeron por última vez tus actividades del aula
   virtual (Moodle).
@@ -286,7 +332,7 @@ En **Mi Formación** ves tu avance en el plan de formación docente del programa
 
 Más abajo, **Criterios de Aprobación y Actividades** detalla cada criterio del plan: las horas
 asignadas, su peso, cuántas actividades completaste y su estado (Aprobado, En revisión o
-Pendiente).
+Pendiente). Ahí ves qué te falta: los criterios en **Pendiente** son los que aún no empiezas.
 
 ![Criterios de aprobación y su estado](img/docente/20-formacion-criterios.jpg)
 
@@ -307,16 +353,17 @@ que puedas revisarla.
 
 ![Página del asistente curricular](img/docente/21-asistente.jpg)
 
-3. Lee la respuesta y revisa la **Fuente** que aparece debajo.
+3. Lee la respuesta. Los números entre corchetes, como **[1]**, indican de qué fuente sale cada
+   parte. Debajo aparece cada **Fuente**: la guía, la sección y la página, para que la revises.
 
-![Respuesta del asistente con su fuente](img/docente/22-asistente-respuesta.jpg)
+![Respuesta del asistente con sus fuentes](img/docente/22-asistente-respuesta.jpg)
 
 Si preguntas algo que no está en las guías, el asistente te lo dirá en lugar de inventar una
 respuesta. Si un aviso indica que se quitaron citas, revisa la
 fuente antes de aplicar la sugerencia.
 
-En la pestaña **Buscador RAG** puedes buscar fragmentos de las guías por tema y filtrarlos por
-eje temático:
+En la pestaña **Buscador RAG** puedes buscar fragmentos de las guías por tema: escribe una o dos
+palabras (por ejemplo, «metas a futuro»), toca **Buscar** y, si quieres, filtra por eje temático:
 
 ![Buscador de fragmentos de las guías](img/docente/23-asistente-buscador.jpg)
 

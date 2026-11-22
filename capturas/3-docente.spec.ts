@@ -40,7 +40,7 @@ test('guía del docente', async ({ browser }) => {
 
   await web.getByRole('button', { name: /¿Olvidaste tu contraseña\?/ }).click()
   await expect(web.getByRole('heading', { name: 'Recuperar contraseña' })).toBeVisible()
-  await foto(web, '02-recuperar-contrasena', { zona: web.getByRole('dialog').first() })
+  await fotoDialogo(foto, web, '02-recuperar-contrasena')
   await web.getByRole('button', { name: 'Cancelar' }).click()
 
   // 2. Panel de inicio
@@ -65,7 +65,11 @@ test('guía del docente', async ({ browser }) => {
   await cel.getByRole('button', { name: /Registrar Asistencia y Aula/ }).click()
   await expect(cel.getByRole('heading', { name: /Registro de aula/ })).toBeVisible()
   await cel.waitForLoadState('networkidle')
+  // Desde arriba: se ven los tres pasos y los contadores, no solo la lista.
+  await cel.evaluate(() => window.scrollTo(0, 0))
+  await resaltar(cel.getByRole('tab', { name: /Asistencia/ }).or(cel.getByRole('button', { name: /^1\. Asistencia/ })).first())
   await foto(cel, '07-movil-asistencia')
+  await quitarResaltado(cel)
 
   const ana = cel.getByRole('button', { name: /Estudiante #3 .*Presente/ })
   await ana.click()
@@ -171,14 +175,16 @@ test('guía del docente', async ({ browser }) => {
   await web.goto('/asistente')
   await web.waitForLoadState('networkidle')
   const panel = web.getByRole('region', { name: /Asistente Curricular/ })
-  await foto(web, '21-asistente')
+  await foto(web, '21-asistente', { zona: panel })
   await panel.getByRole('textbox').fill('¿Cómo calmo al grupo después del recreo?')
   await panel.getByRole('button', { name: 'Enviar pregunta' }).click()
   await expect(panel.getByRole('list', { name: 'Fuentes citadas' })).toBeVisible({ timeout: 30000 })
   await foto(web, '22-asistente-respuesta', { zona: panel })
   await panel.getByRole('button', { name: /Buscador RAG/ }).click()
   await panel.getByRole('textbox').first().fill('metas a futuro')
-  await web.waitForTimeout(1500)
+  await panel.getByRole('button', { name: 'Buscar', exact: true }).click()
+  await expect(panel.getByText(/fragmentos? recuperados?/)).not.toHaveText(/^0 /, { timeout: 20000 })
+  await web.waitForTimeout(800)
   await foto(web, '23-asistente-buscador', { zona: panel })
 
   // El asistente también responde con esta guía y enlaza a la sección.
