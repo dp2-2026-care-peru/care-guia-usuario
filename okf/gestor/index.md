@@ -1,6 +1,9 @@
 ---
 title: "Gestor territorial"
 description: "Gestores que acompañan a las docentes de su región."
+x-care-guia: "Guía de uso de la plataforma · Gestor territorial"
+x-care-eje: "PLATAFORMA"
+x-care-version-guia: "v1.0 (nov. 2026)"
 ---
 
 # Guía de uso para gestores territoriales
@@ -9,6 +12,10 @@ Esta guía explica cómo usar la plataforma para acompañar a las docentes tutor
 tu cargo: revisar su avance, registrar tus contactos y visitas, y revisar las evidencias de aula.
 Todo lo que ves está limitado a tu región y a los colegios que te asignó la coordinación. Las
 imágenes usan datos de ejemplo.
+
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](../docente/consultar-al-asistente-curricular.md).
 
 ## Temas
 

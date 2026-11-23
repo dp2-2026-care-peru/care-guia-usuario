@@ -11,7 +11,7 @@ La plataforma está en el repositorio [`care-software`](https://github.com/dp2-2
 | Carpeta | Contenido |
 |---|---|
 | `guias/` | **La fuente que se edita.** Hay un `.md` por perfil, y sus capturas están en `guias/img/<perfil>/`. |
-| `scripts/construir.mjs` | Arma `docs/` (una página por tema) y las copias para el asistente. |
+| `scripts/construir.mjs` | Arma `docs/` (una página por tema) y el paquete OKF `okf/`, que lee el asistente. |
 | `capturas/` | Recorridos de Playwright que toman las capturas contra la plataforma en local. |
 | `auditoria/` | Auditoría del sitio compilado. |
 | `src/`, `static/`, `i18n/` | Tema (colores de la plataforma), logo y textos de la interfaz en español. |
@@ -106,26 +106,37 @@ No lo edites a mano: cambia `guias/` y vuelve a construir. `npm run auditar` val
 cada concepto tiene `type`, `title`, `description` y un `resource` que existe en el sitio, y
 ningún enlace está roto.
 
-## Copias para el asistente curricular
+## El asistente curricular lee el paquete OKF
 
-Si `care-software` está al lado (o en `CARE_SOFTWARE`), `npm run construir` también actualiza dos cosas allá:
+El asistente de `care-software` no usa copias: `cmd/ingestar_guias` lee el paquete OKF publicado
+(`https://dp2-2026-care-peru.github.io/care-guia-usuario/okf/`) o una carpeta local con `-okf`.
 
-- **`server/data/guias/10-guia-uso-<perfil>.md`:** la guía sin imágenes. El asistente la indexa con el eje `PLATAFORMA` y cita cada tema.
-- **`src/css/tokens.css`** (en este repositorio): los colores de la plataforma, desde `web/src/index.css`. Sin la plataforma se usa el archivo versionado.
+- Cada concepto es una sección: su `title`, `description` y `tags` alimentan la búsqueda, y su
+  `resource` es el enlace **Abrir en la guía** de la respuesta.
+- El `index.md` de cada perfil trae `x-care-guia` (el nombre con que se cita la guía),
+  `x-care-eje` y `x-care-version-guia`.
+- Los enlaces entre temas son las aristas de la expansión de un salto: el asistente agrega como
+  contexto el tema enlazado desde el primer resultado.
+- Puerta de calidad: un concepto con `status: draft` o `deprecated`, o con `stale_after` vencido,
+  no se indexa y aparece como cuarentena en la salida de la ingesta.
+- Las preguntas de ejemplo precedidas de «por ejemplo» no se indexan (si quedaran, el asistente
+  respondería esa pregunta pedagógica con la guía de uso).
 
-Las copias y el paquete OKF enlazan cada tema al sitio publicado
-(`https://dp2-2026-care-peru.github.io/care-guia-usuario/<perfil>/<tema>`). Para probar los enlaces
-contra la vista previa local, construye con `GUIA_URL_BASE`, y no subas esas copias:
+`npm run construir` también regenera `src/css/tokens.css` desde `care-software/web/src/index.css`
+si encuentra ese repositorio al lado (o en `CARE_SOFTWARE`); si no, usa el archivo versionado.
+
+Los enlaces apuntan al sitio publicado. Para probarlos contra la vista previa local, construye con
+`GUIA_URL_BASE` y no subas ese `okf/`:
 
 ```powershell
 $env:GUIA_URL_BASE = 'http://localhost:4173/'; npm run construir
 ```
 
-Después de cambiar las guías, en `care-software`, sigue estos pasos:
+Después de publicar cambios en las guías, en `care-software`:
 
-1. Ejecuta `cd server; go run ./cmd/evaluar_asistente -generar` y revisa que no haya preguntas «del dominio rechazadas por error».
-2. Ejecuta `go run ./cmd/ingestar_guias -aplicar`.
-3. Sube las copias en un PR.
+1. `cd server; go run ./cmd/ingestar_guias -aplicar` (o el despliegue, que lo hace solo).
+2. `go run ./cmd/evaluar_asistente -generar` y revisar que no haya preguntas «del dominio
+   rechazadas por error».
 
 ## Publicación
 

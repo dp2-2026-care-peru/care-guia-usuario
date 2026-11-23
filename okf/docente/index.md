@@ -1,6 +1,9 @@
 ---
 title: "Docente y cotutor"
 description: "Docentes tutoras y cotutores que dictan las sesiones en el aula."
+x-care-guia: "Guía de uso de la plataforma · Docente"
+x-care-eje: "PLATAFORMA"
+x-care-version-guia: "v1.0 (nov. 2026)"
 ---
 
 # Guía de uso de la plataforma para docentes
@@ -12,6 +15,10 @@ ejemplo; en tu cuenta verás tu colegio y tu sección.
 
 Si eres **cotutora o cotutor**, esta guía también es para ti: tienes el mismo menú y las mismas
 pantallas que la docente titular.
+
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](./consultar-al-asistente-curricular.md).
 
 ## Temas
 
@@ -30,4 +37,4 @@ pantallas que la docente titular.
 - [Revisar la nómina de estudiantes](./revisar-la-nomina-de-estudiantes.md): En Estudiantes ves la nómina de tu sección con la condición, el porcentaje de asistencia y el promedio de cada estudiante.
 - [Postular a una estudiante a la Escuela de Liderazgo](./postular-a-una-estudiante-a-la-escuela-de-liderazgo.md): Si una estudiante destaca por su liderazgo, puedes postularla a la Escuela de Liderazgo.
 - [Revisar tu avance en Mi Formación](./revisar-tu-avance-en-mi-formacion.md): En Mi Formación ves tu avance en el plan de formación docente del programa.
-- [Consultar al asistente curricular](./consultar-al-asistente-curricular.md): El asistente curricular responde preguntas sobre cómo preparar tus sesiones, usando solo las guías pedagógicas del programa.
+- [Consultar al asistente curricular](./consultar-al-asistente-curricular.md): El asistente curricular responde preguntas sobre cómo preparar tus sesiones y sobre cómo usar la plataforma.

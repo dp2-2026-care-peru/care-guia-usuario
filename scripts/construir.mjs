@@ -1,23 +1,19 @@
 // Construye la guía de usuario a partir de guias/*.md (uno por perfil):
 //   1. docs/: el contenido del sitio Docusaurus. Una carpeta por perfil (categoría del
 //      panel lateral) con una introducción y una página por tema.
-//   2. Si encuentra el repositorio de la plataforma (care-software, al lado de este o en
-//      CARE_SOFTWARE):
-//      - server/data/guias/10-guia-uso-<perfil>.md: la misma guía sin imágenes, para que el
-//        asistente curricular la indexe y cite cada tema con su enlace.
-//      - src/css/tokens.css: los colores de la plataforma, desde web/src/index.css.
-//      Sin la plataforma (por ejemplo, en GitHub Actions) se usa el tokens.css versionado.
-//
-//   3. okf/: la guía como paquete Open Knowledge Format (OKF v0.3), para que agentes y modelos
-//      de IA la lean y la citen: un concepto (archivo con frontmatter `type`) por tema, enlaces
+//   2. src/css/tokens.css: los colores de la plataforma, desde web/src/index.css, si encuentra
+//      el repositorio care-software al lado de este (o en CARE_SOFTWARE). Sin él (por ejemplo,
+//      en GitHub Actions) se usa el tokens.css versionado.
+//   3. okf/: la guía como paquete Open Knowledge Format (OKF v0.3). Es la fuente del asistente
+//      curricular de care-software (cmd/ingestar_guias lo lee publicado) y de cualquier agente de IA: un concepto (archivo con frontmatter `type`) por tema, enlaces
 //      Markdown entre conceptos y `resource` con la página publicada de cada tema.
 //
 //   npm run construir
 //   GUIA_URL_BASE=http://localhost:4173/ npm run construir   (enlaces a la vista previa local)
 //
-// GUIA_URL_BASE es la dirección del sitio: el asistente y el paquete OKF arman con ella el
-// enlace de cada tema (<base><perfil>/<tema>). Por omisión es el sitio publicado en GitHub
-// Pages. Una dirección local solo sirve para probar: no subas las copias generadas con ella.
+// GUIA_URL_BASE es la dirección del sitio: el paquete OKF arma con ella el resource de cada tema
+// (<base><perfil>/<tema>), que es el enlace que cita el asistente. Por omisión es el sitio
+// publicado en GitHub Pages. Una dirección local solo sirve para probar: no la subas.
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -27,8 +23,7 @@ const RAIZ = join(REPO, 'guias')
 const DOCUSAURUS = REPO
 const DOCS = join(REPO, 'docs')
 const PLATAFORMA = resolve(process.env.CARE_SOFTWARE ?? join(REPO, '..', 'care-software'))
-const HAY_PLATAFORMA = existsSync(join(PLATAFORMA, 'server', 'data', 'guias')) && existsSync(join(PLATAFORMA, 'web', 'src', 'index.css'))
-const GUIAS_ASISTENTE = join(PLATAFORMA, 'server', 'data', 'guias')
+const HAY_PLATAFORMA = existsSync(join(PLATAFORMA, 'web', 'src', 'index.css'))
 const SITIO_PUBLICADO = 'https://dp2-2026-care-peru.github.io/care-guia-usuario/'
 const BASE = (process.env.GUIA_URL_BASE || SITIO_PUBLICADO).replace(/\/?$/, '/')
 const OKF = join(REPO, 'okf')
@@ -102,34 +97,6 @@ function documento(frente, cuerpo) {
   return `---\n${cabecera.join('\n')}\n---\n\n${cuerpo.trim()}\n`
 }
 
-/** Copia para el asistente: mismo encabezado y temas, sin imágenes ni marcas de formato. */
-function copiaAsistente(meta, cuerpo) {
-  const lineas = cuerpo.split('\n')
-    .filter((l) => !/^!\[/.test(l.trim()) && !/^# /.test(l))
-    .map((l) => l.replace(/`([^`]+)`/g, '$1')
-      // Los enlaces entre temas quedan como texto: el asistente cita cada tema con su propio enlace.
-      .replace(/\[([^\]]+)\]\((?:[a-z-]+\.md)?(?:#[a-z0-9-]+)?\)/g, '$1'))
-  const primeraSeccion = lineas.findIndex((l) => l.startsWith('## '))
-  const texto = lineas.slice(primeraSeccion).join('\n').replace(/\n{3,}/g, '\n\n')
-    // Negritas sobre el texto completo: algunas abarcan dos líneas de la fuente.
-    .replace(/\*\*([\s\S]+?)\*\*/g, '$1')
-    // Las preguntas de ejemplo («¿Cómo calmo al grupo…?») se quitan de la copia: si quedan, el
-    // asistente responde esa pregunta pedagógica con la guía de uso en vez de con las fichas.
-    .replace(/[ \t]*,?[ \t]*\b[Pp]or ejemplo[,:]?\s+«¿[^»]*\?»/g, '')
-  return `---
-titulo: ${meta.titulo}
-eje: ${meta.eje}
-version: ${meta.version ?? ''}
-archivo: ${BASE}${meta.archivo}
----
-
-<!-- Archivo generado por el repositorio care-guia-usuario (scripts/construir.mjs) a partir
-     de guias/${meta.fuente}. No editar a mano: cambia la fuente allá y vuelve a construir. -->
-
-${texto.trim()}
-`
-}
-
 /** Tokens de color de la plataforma (web/src/index.css) para el tema de Docusaurus. */
 function tokensCss() {
   const css = readFileSync(join(PLATAFORMA, 'web', 'src', 'index.css'), 'utf8')
@@ -175,7 +142,7 @@ function construir() {
   rmSync(DOCS, { recursive: true, force: true })
   mkdirSync(DOCS, { recursive: true })
   if (HAY_PLATAFORMA) writeFileSync(join(DOCUSAURUS, 'src', 'css', 'tokens.css'), tokensCss())
-  else console.log(`Sin la plataforma en ${PLATAFORMA}: se usa el tokens.css versionado y no se actualizan las copias del asistente.`)
+  else console.log(`Sin la plataforma en ${PLATAFORMA}: se usa el tokens.css versionado.`)
 
   const fuentes = readdirSync(RAIZ).filter((n) => n.endsWith('.md') && n !== 'README.md').sort()
   // Primera pasada: archivo de cada tema, para resolver los enlaces entre temas y entre guías.
@@ -242,7 +209,8 @@ function construir() {
     mkdirSync(destinoOkf, { recursive: true })
     if (existsSync(join(RAIZ, 'img', perfil))) cpSync(join(RAIZ, 'img', perfil), join(destinoOkf, 'img'), { recursive: true })
     writeFileSync(join(destinoOkf, 'index.md'), documento(
-      { title: meta.perfil, description: meta.para },
+      // x-care-*: título y eje con que el asistente cita la guía, y su versión.
+      { title: meta.perfil, description: meta.para, 'x-care-guia': meta.titulo, 'x-care-eje': meta.eje, 'x-care-version-guia': meta.version },
       `# ${titulo}\n\n${conEnlaces(conImagenes(intro, perfil, nombre), nombre, 'okf')}\n\n## Temas\n\n` +
         temas.map((t) => `- [${t.titulo}](./${ancla(t.titulo)}.md): ${descripcion(t.lineas.join('\n'))}`).join('\n'),
     ))
@@ -265,9 +233,8 @@ function construir() {
       ))
     })
 
-    if (HAY_PLATAFORMA) writeFileSync(join(GUIAS_ASISTENTE, `10-guia-uso-${perfil}.md`), copiaAsistente(meta, cuerpo))
     guias.push({ meta, carpeta, temas: temas.length, lista: temas.map((t) => t.titulo) })
-    console.log(`✓ ${meta.perfil}: ${temas.length} temas${HAY_PLATAFORMA ? ` · care-software/server/data/guias/10-guia-uso-${perfil}.md` : ''}`)
+    console.log(`✓ ${meta.perfil}: ${temas.length} temas`)
   }
 
   guias.sort((a, b) => Number(a.meta.orden ?? 99) - Number(b.meta.orden ?? 99))

@@ -15,6 +15,10 @@ de entrada y salida de las estudiantes, revisar la cobertura de la medición y s
 de las egresadas. Tus pantallas son de consulta: no modifican registros. Las imágenes usan datos de
 ejemplo.
 
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](docente.md#consultar-al-asistente-curricular).
+
 ## Ingresar y conocer tu menú
 pagina: 1
 claves: ingresar, iniciar sesión, menú de evaluación, evaluación de impacto, panel analítico

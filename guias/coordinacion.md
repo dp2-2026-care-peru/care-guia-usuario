@@ -22,6 +22,10 @@ Los tres perfiles comparten casi todo:
   padrón docente, editar docentes, actualizar el padrón ESCALE ni configurar los parámetros de
   egresadas.
 
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](docente.md#consultar-al-asistente-curricular).
+
 ## Ingresar y moverte por la plataforma
 pagina: 1
 claves: ingresar, iniciar sesión, menú, módulos, coordinación, administración, monitoreo, cerrar sesión

@@ -13,6 +13,10 @@ archivo: voluntaria/
 Esta guía explica cómo revisar las evidencias que las docentes suben al cerrar sus sesiones de aula
 y cómo registrar tu dictamen. Las imágenes usan datos de ejemplo.
 
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](docente.md#consultar-al-asistente-curricular).
+
 ## Ingresar y abrir la cola de evidencias
 pagina: 1
 claves: ingresar, iniciar sesión, voluntaria, cola de evidencias, evidencias pendientes

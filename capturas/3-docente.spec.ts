@@ -170,29 +170,25 @@ test('guía del docente', async ({ browser }) => {
   await foto(web, '19-formacion')
   await foto(web, '20-formacion-criterios', { zona: web.getByText(/Criterios de Aprobación/).first().locator('xpath=ancestor::section[1] | ancestor::div[contains(@class,"rounded")][1]').first() })
 
-  // 10. Asistente curricular
-  // Desde f9ba51a el menú no enlaza al asistente: se abre por su dirección.
-  await web.goto('/asistente')
+  // 10. Asistente curricular: botón flotante de la esquina inferior izquierda.
+  await web.goto('/inicio')
   await web.waitForLoadState('networkidle')
+  await web.getByRole('button', { name: 'Abrir asistente curricular' }).click()
   const panel = web.getByRole('region', { name: /Asistente Curricular/ })
+  await expect(panel.getByLabel('Preguntas sugeridas')).toBeVisible()
   await foto(web, '21-asistente', { zona: panel })
   await panel.getByRole('textbox').fill('¿Cómo calmo al grupo después del recreo?')
   await panel.getByRole('button', { name: 'Enviar pregunta' }).click()
   await expect(panel.getByRole('list', { name: 'Fuentes citadas' })).toBeVisible({ timeout: 30000 })
+  await web.waitForTimeout(600)
   await foto(web, '22-asistente-respuesta', { zona: panel })
-  await panel.getByRole('button', { name: /Buscador RAG/ }).click()
-  await panel.getByRole('textbox').first().fill('metas a futuro')
-  await panel.getByRole('button', { name: 'Buscar', exact: true }).click()
-  await expect(panel.getByText(/fragmentos? recuperados?/)).not.toHaveText(/^0 /, { timeout: 20000 })
-  await web.waitForTimeout(800)
-  await foto(web, '23-asistente-buscador', { zona: panel })
 
-  // El asistente también responde con esta guía y enlaza a la sección.
-  await panel.getByRole('button', { name: /Chat Asistente/ }).click()
+  // El asistente también responde con esta guía y enlaza al tema.
   await panel.getByRole('textbox').fill('¿Cómo marco que una estudiante faltó?')
   await panel.getByRole('button', { name: 'Enviar pregunta' }).click()
-  const enlace = panel.getByRole('link', { name: 'ver la sección en la guía' }).last()
+  const enlace = panel.getByRole('link', { name: /Abrir en la guía/ }).last()
   await expect(enlace).toBeVisible({ timeout: 30000 })
+  await enlace.scrollIntoViewIfNeeded()
   await resaltar(enlace)
   await foto(web, '24-asistente-guia-uso', { zona: panel })
 

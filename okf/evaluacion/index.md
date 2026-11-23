@@ -1,6 +1,9 @@
 ---
 title: "Evaluación de impacto"
 description: "Especialistas que miden el impacto del programa."
+x-care-guia: "Guía de uso de la plataforma · Evaluación de impacto"
+x-care-eje: "PLATAFORMA"
+x-care-version-guia: "v1.0 (nov. 2026)"
 ---
 
 # Guía de uso para evaluación de impacto
@@ -9,6 +12,10 @@ Esta guía explica cómo usar la plataforma para medir el impacto del programa: 
 de entrada y salida de las estudiantes, revisar la cobertura de la medición y seguir la trayectoria
 de las egresadas. Tus pantallas son de consulta: no modifican registros. Las imágenes usan datos de
 ejemplo.
+
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](../docente/consultar-al-asistente-curricular.md).
 
 ## Temas
 

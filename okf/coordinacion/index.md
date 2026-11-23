@@ -1,6 +1,9 @@
 ---
 title: "Coordinación, administración y monitoreo"
 description: "Equipo central del programa: indicadores, padrones y configuración."
+x-care-guia: "Guía de uso de la plataforma · Coordinación, administración y monitoreo"
+x-care-eje: "PLATAFORMA"
+x-care-version-guia: "v1.0 (nov. 2026)"
 ---
 
 # Guía de uso para coordinación, administración y monitoreo
@@ -16,6 +19,10 @@ Los tres perfiles comparten casi todo:
 - **Monitoreo** ve los mismos módulos excepto **Gestores**, y no tiene las acciones de importar el
   padrón docente, editar docentes, actualizar el padrón ESCALE ni configurar los parámetros de
   egresadas.
+
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](../docente/consultar-al-asistente-curricular.md).
 
 ## Temas
 

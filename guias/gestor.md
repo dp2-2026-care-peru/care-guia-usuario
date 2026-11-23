@@ -15,6 +15,10 @@ tu cargo: revisar su avance, registrar tus contactos y visitas, y revisar las ev
 Todo lo que ves está limitado a tu región y a los colegios que te asignó la coordinación. Las
 imágenes usan datos de ejemplo.
 
+**¿Dudas mientras usas la plataforma?** Toca el botón naranja de la esquina inferior izquierda
+para preguntarle al asistente curricular: conoce esta guía, te responde con el paso a paso y te
+lleva al tema. Más detalles en [Consultar al asistente curricular](docente.md#consultar-al-asistente-curricular).
+
 ## Ingresar y conocer tu menú
 pagina: 1
 claves: ingresar, iniciar sesión, menú del gestor, panel analítico, gestor territorial, cerrar sesión
