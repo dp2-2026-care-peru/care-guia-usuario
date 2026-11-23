@@ -84,12 +84,6 @@ module.exports = {
           { type: 'docSidebar', sidebarId: 'guia', position: 'left', label: 'Perfiles' },
         ],
       },
-      footer: {
-        style: 'light',
-        // El paquete OKF (okf/) se copia a build/okf al compilar: no es una ruta de Docusaurus.
-        links: [{ label: 'Paquete OKF para asistentes de IA', href: 'pathname:///okf/index.md' }],
-        copyright: 'Programa Niñas con Oportunidades · CARE Perú. Las imágenes usan datos de ejemplo.',
-      },
       tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 3 },
       zoom: {
         selector: '.markdown img',
